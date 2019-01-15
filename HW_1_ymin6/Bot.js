@@ -15,7 +15,16 @@ class Bot {
   update() {
     // add code so bot moves in a circle of diameter 300 pixels
     // do not use the 'itick' variable in your code
-    this.x += 1;
+    // Circle circumference = 300 * PI pix
+    // Speed = 3 pix/tick
+    // 100 * PI update/revolution.
+
+    // First update the heading.
+    this.heading += 2 * Math.PI / (100 * Math.PI);
+    // Calculate the new X and Y based in the equation given
+    // at https://mcb419.github.io/hw/hw01.
+    this.x += this.speed * cos(this.heading);
+    this.y += this.speed * sin(this.heading);
   }
 
   draw() {

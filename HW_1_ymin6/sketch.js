@@ -59,3 +59,4 @@ function stop() {
   paused = true;
   noLoop();
 }
+
