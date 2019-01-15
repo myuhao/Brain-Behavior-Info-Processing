@@ -1,4 +1,5 @@
 // HW01 template - simple movement
+// @author Yuhao Min - ymin6@illinois.edu
 
 /** @type {Boolean} If we should pause the animation. */
 var paused = false;

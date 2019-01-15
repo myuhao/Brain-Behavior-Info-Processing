@@ -2,7 +2,7 @@ class Bot {
   constructor() {
     this.reset();
   }
-
+  /** Initial values are hard-coded. */
   reset() {
     this.x = 400 - 50;
     this.y = 400 / 2;
