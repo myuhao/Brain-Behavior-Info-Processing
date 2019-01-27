@@ -1,0 +1,44 @@
+<!DOCTYPE html><html><head>
+    <script src="p5.min.js"></script>
+    <script src="p5.dom.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8">
+    <script src="Bot.js"></script>
+    <script src="check.js"></script>
+    <script src="sketch.js"></script>
+  </head>
+  <body>
+    <h2>MCB 419 - HW02</h2>
+    <div id="canvas"></div>
+    <button id="reset" onclick="reset()">Reset</button>
+    <button id="run" onclick="run()">Run</button>
+    <button id="stop" onclick="stop()">Stop</button>
+    <br>
+    <button id="check" onclick="check()">Check implementation</button>
+    <br>
+    <textarea id="out" rows="12" cols="60"></textarea>
+    <h3>Questions
+    <user>(answer these by editing the index.html file before you submit)</user>
+    </h3>
+    <ol>
+    <li>When the bot moves in the given 300-pixel circular trajectory, 
+      approximately how many pellets are collected in one loop around the circle (314 ticks)?<br>
+      <user>your answer here</user>
+    </li>
+    <li>Approximately how many pellets are collected if the simulation continues to run for 2000 ticks?<br>
+      <user>your answer here</user>
+    </li>
+      <li>What would be a more efficient movement strategy for the bot to use over 
+        long time scales to optimize foraging efficiency?<br>
+      <user>your answer here</user>
+    </li>
+    <li>OPTIONAL: after saving and submitting your HW solution, duplicate the project and try to implment
+      a more efficient foraging strategy by changing the code in bot.update(). 
+      <br>Try to avoid using information that the bot cannot sense directly.
+      <br>If you like, you may submit your modified version with the subject "HW02-OPTIONAL"
+      <br>I will look at it, but it won't be graded.
+      </li>
+    </ol>
+  
+
+</body></html>
