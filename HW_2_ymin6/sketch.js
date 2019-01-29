@@ -3,20 +3,11 @@
 var paused = false;
 var itick; // simulation clock
 var bot; // bot object
-var botEnergy;
-var foodLoc = new Map();
+var pellets;
 
 function setup() {
   createCanvas(400, 400).parent("#canvas");
   bot = new Bot();
-  // foodLoc = new Array();
-  // for (i = 0; i < width; i++) {
-  //   temp = new Array();
-  //   for (j = 0; j < height; j++) {
-  //     temp[j] = false;
-  //   }
-  //   foodLoc[i] = temp;
-  // }
   reset();
 }
 
@@ -29,12 +20,8 @@ function draw() {
   rect(0, 0, 100, 40);
   fill(0);
   text('tick = ' + itick, 15, 15);
-  text('energy = ' + botEnergy, 15, 30);
-  for (const coord of foodLoc.keys()) {
-    fill("darkGreen");
-    ellipse(coord[0], coord[1], 6);
-    console.log(coord[0], coord);
-  }
+  text('energy = ' + bot.energy, 15, 30);
+  pellets.forEach(drawPellets);
 }
 
 function reset() {
@@ -42,20 +29,24 @@ function reset() {
   itick = 0;
   botEnergy = 0;
   bot.reset();
-  draw();
-  /** Handle food palletes */
-  foodLoc.clear()
+  /** Handle food pellets */
+  pellets = new Array();
   for (i = 0; i < 100; i++) {
-    var x = random(0, width);
-    var y = random(0, height);
-    coord = new Array(x, y);
-    foodLoc.set(coord, true);
+    pellets.push(getNewPellet());
   }
+  draw();
 }
 
 function update() {
   itick++;
   bot.update();
+  for (var i = 0; i < pellets.length; i++) {
+    var distance = calcDistance(pellets[i]);
+    if (distance <= bot.r) {
+      bot.consume();
+      pellets[i] = getNewPellet();
+    }
+  }
 }
 
 function run() {
@@ -67,3 +58,30 @@ function stop() {
   paused = true;
   noLoop();
 }
+
+/**
+ * Calculate the distance between two points.
+ */
+function calcDistance(p, x=bot.x, y=bot.y) {
+  return Math.sqrt((p.x-x)*(p.x-x) + (p.y-y)*(p.y-y));
+}
+
+/**
+ * Draw all food pellets in an array.
+ * @param  {Array} value The coordinates of the food pellet in an array.
+ * @return {Null}       Does not return.
+ */
+function drawPellets(value) {
+  fill("darkGreen");
+  ellipse(value.x, value.y, 6);
+}
+
+/**
+ * Get a new pellet that is not in the bot already.
+ * @return {Pellet} New food pellet.
+ */
+function getNewPellet() {
+  var newP = new Pellet();
+  return calcDistance(newP) > bot.r ? newP : getNewPellet();
+}
+

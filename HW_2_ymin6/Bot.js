@@ -18,10 +18,11 @@ class Bot {
     this.y += this.speed * sin(this.heading);
   }
 
-  consume() { 
+  consume() {
     // bot consumes pellets if pellet center overlaps with bot
     // consumed pellets increase bot energy by 1 unit
     // consumed pellets are moved to a new random location
+    this.energy++;
   }
 
   draw() {
