@@ -1,10 +1,10 @@
-// HW02 template - simple foraging 
+// HW02 template - simple foraging
 
 var paused = false;
 var itick; // simulation clock
 var bot; // bot object
 var botEnergy;
-var foodLoc;
+var foodLoc = new Map();
 
 function setup() {
   createCanvas(400, 400).parent("#canvas");
@@ -22,7 +22,7 @@ function setup() {
 
 function draw() {
   if (!paused) update();
-  background('lightBlue');  
+  background('lightBlue');
   bot.draw();
   fill(220);
   noStroke();
@@ -30,10 +30,10 @@ function draw() {
   fill(0);
   text('tick = ' + itick, 15, 15);
   text('energy = ' + botEnergy, 15, 30);
-  for (var coord in foodLoc) {
+  for (const coord of foodLoc.keys()) {
     fill("darkGreen");
     ellipse(coord[0], coord[1], 6);
-    console.log(coord[0], coord[1], coord);
+    console.log(coord[0], coord);
   }
 }
 
@@ -43,12 +43,13 @@ function reset() {
   botEnergy = 0;
   bot.reset();
   draw();
-  foodLoc = {};
+  /** Handle food palletes */
+  foodLoc.clear()
   for (i = 0; i < 100; i++) {
-    x = random(0, width);
-    y = random(0, height);
-    coord = [x, y];
-    foodLoc[coord] = true;
+    var x = random(0, width);
+    var y = random(0, height);
+    coord = new Array(x, y);
+    foodLoc.set(coord, true);
   }
 }
 
