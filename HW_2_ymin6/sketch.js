@@ -27,7 +27,6 @@ function draw() {
 function reset() {
   stop();
   itick = 0;
-  botEnergy = 0;
   bot.reset();
   /** Handle food pellets */
   pellets = new Array();
