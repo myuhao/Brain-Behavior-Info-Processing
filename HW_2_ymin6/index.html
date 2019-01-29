@@ -15,23 +15,24 @@
     <button id="run" onclick="run()">Run</button>
     <button id="stop" onclick="stop()">Stop</button>
     <br>
+    <button id="oneCycle" onclick="oneCycle()">314 ticks</button>
+    <button id="twoKDist" onclick="twoKDist()">2000 ticks</button>
+    <br>
     <button id="check" onclick="check()">Check implementation</button>
     <br>
     <textarea id="out" rows="12" cols="60"></textarea>
-    <h3>Questions
-    <user>(answer these by editing the index.html file before you submit)</user>
-    </h3>
+    <h3>Questions</h3>
     <ol>
     <li>When the bot moves in the given 300-pixel circular trajectory,
       approximately how many pellets are collected in one loop around the circle (314 ticks)?<br>
-      <user>your answer here</user>
+      <user>Among the five runs, there were 19, 28, 29, 29, 30 pellets collected in each run.</user>
     </li>
     <li>Approximately how many pellets are collected if the simulation continues to run for 2000 ticks?<br>
-      <user>your answer here</user>
+      <user>Among the five runs, there were 23, 25, 23, 31, 33 pellets collected in each run.</user>
     </li>
       <li>What would be a more efficient movement strategy for the bot to use over
         long time scales to optimize foraging efficiency?<br>
-      <user>your answer here</user>
+      <user>The agent should not follow a fixed trajectory. The fixed trajectory prevent the agent from collecting newly distrubuted food that is outside of the trajectory. A possible approach is to allow the agent to move randomly in the arena.</user>
     </li>
     <li>OPTIONAL: after saving and submitting your HW solution, duplicate the project and try to implment
       a more efficient foraging strategy by changing the code in bot.update().

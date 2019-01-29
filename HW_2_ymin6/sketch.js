@@ -4,6 +4,7 @@ var paused = false;
 var itick; // simulation clock
 var bot; // bot object
 var pellets;
+var maxTicks;
 
 function setup() {
   createCanvas(400, 400).parent("#canvas");
@@ -46,6 +47,11 @@ function update() {
       pellets[i] = getNewPellet();
     }
   }
+  if (maxTicks != undefined) {
+    if (itick >= maxTicks) {
+      stop();
+    }
+  }
 }
 
 function run() {
@@ -84,3 +90,12 @@ function getNewPellet() {
   return calcDistance(newP) > bot.r ? newP : getNewPellet();
 }
 
+function oneCycle() {
+  maxTicks = 314;
+  run();
+}
+
+function twoKDist() {
+  maxTicks = 2000;
+  run();
+}
