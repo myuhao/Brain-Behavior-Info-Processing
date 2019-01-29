@@ -1,0 +1,26 @@
+button {
+  margin: 10px 5px;
+  padding: 5px;
+  background-color: wheat;
+}
+
+canvas {
+  display: block;
+}
+
+user {
+  color: green;
+  font-weight: bold;
+}
+
+#run {
+  background-color: lightGreen;
+}
+
+#stop {
+  background-color: pink;
+}
+
+#check {
+  background-color: orange;
+}
