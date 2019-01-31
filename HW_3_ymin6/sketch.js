@@ -34,7 +34,7 @@ function draw() {
   fill(0);
   text('tick = ' + itick, 15, 15);
   text('energy = ' + bot.energy, 15, 30);
-  text('e/tick = ' + bot.energyPerTick, 15, 45);
+  text('e/tick = ' + nfc(bot.energyPerTick, 3), 15, 45);
 }
 
 function setNoise() {
