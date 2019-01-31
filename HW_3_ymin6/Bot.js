@@ -8,7 +8,7 @@ class Bot {
     this.x = width - 50;
     this.y = height / 2;
     this.r = 20;
-    this.heading = PI * 2;
+    this.heading = 3*PI/4;
     this.speed = 3;
     this.vx = this.speed * cos(this.heading);
     this.vy = this.speed * sin(this.heading);
@@ -20,22 +20,25 @@ class Bot {
   update() {
     /** Deal with the movement here. */
     // this.heading += random(-this.wanderNoise, this.wanderNoise);
-    this.updateVelocity();
-    let nextX = this.x + this.vx;
-    let nextY = this.y + this.vy;
-    // Handle collision to wall by reflection.
-    if (nextX < this.r || nextX > (width-this.r)) {
-      this.vx *= -1;
-      nextX= this.x;
+    let vx = cos(this.heading);
+    let vy = sin(this.heading);
+    let nextX = this.x + this.speed * vx;
+    let nextY = this.y + this.speed * vy;
+
+    if (nextX <= this.r || nextX >= width-this.r) {
+      vx *= -1;
+      nextX = this.x;
+      // this.heading = Math.atan(vy / vx);
     }
-    if (nextY < this.r || nextY > (height-this.r)) {
-      this.vy *= -1;
+    if (nextY <= this.r || nextY >= height-this.r) {
+      vy *= -1;
       nextY = this.y;
+      this.heading = Math.atan(vy / vx);
     }
     this.x = nextX;
     this.y = nextY;
-    // Update the heading to reflect collision.
-    this.heading = atan(this.vy/this.vx);
+
+    console.log(this.heading);
     /** Eat the food!! */
     this.consume();
     this.energyPerTick /= itick;
