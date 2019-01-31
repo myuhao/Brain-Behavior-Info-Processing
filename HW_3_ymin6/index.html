@@ -1,7 +1,7 @@
 <!DOCTYPE html><html><head>
-    <script src="p5.min.js"></script>
-    <script src="p5.dom.min.js"></script>
-    <script src="mplot.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.min.js"></script>
+    <script src="https://mcb419.github.io/js/mplot.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
     <meta charset="utf-8">
     <script src="Bot.js"></script>
@@ -21,10 +21,12 @@
     <button id="addpt" onclick="addPoint()">Add Data Point</button>
     <button id="clf" onclick="clf()">Clear Figure</button>
     <br>
-    <button id="sim" onclick="simulation()">Simulation</button>
-    <input type="checkbox" id="simulation">Simulation.
-    <br>
     <canvas id="fig1" width="400" height="300"></canvas>
+    <br>
+     Simulation Duration: <input id="duration" value="1000" size="4">
+     Sample Number: <input id="stepSize" value="0.1" size="3">
+     <button id="sim" onclick="simulation()">Simulation</button>
+    <!--  My anser to the questions!  -->
     <h3>Questions
     <user>(answer these by editing the index.html file before you submit)</user>
     </h3>

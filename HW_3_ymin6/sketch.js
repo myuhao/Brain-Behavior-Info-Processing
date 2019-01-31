@@ -20,10 +20,6 @@ function setup() {
 }
 
 function draw() {
-  if (select("#simulation").checked() == true) {
-    simulation();
-    return;
-  }
   let count = select("#warp").checked() ? 100 : 1;
   if (!paused)
     for (let i = 0; i < count; i++) update();
@@ -38,9 +34,6 @@ function draw() {
   fill(0);
   text('tick = ' + itick, 15, 15);
   text('energy = ' + bot.energy, 15, 30);
-  // if (itick % 60 == 0) {
-  //   lastBPT = nfc(bot.energyPerTick, 3);
-  // }
   text('e/tick = ' + nfc(bot.energyPerTick, 3), 15, 45);
 }
 
@@ -55,13 +48,6 @@ function addPoint() {
     plot(bot.wanderNoise, bot.energyPerTick, 'bo');
   } else {
     console.log('error: bot.energyPerTick does not exist');
-  }
-}
-
-function simulation() {
-  bot.wanderNoise = 0.3;
-  if (itick < 100) {
-    update();
   }
 }
 
@@ -86,4 +72,36 @@ function run() {
 function stop() {
   paused = true;
   noLoop();
+}
+
+/** Attempt to one button simulate the plot */
+function simulation() {
+  // Clear figure.
+  clf();
+  var stepSize = select("#stepSize").value();
+  stepSize = parseFloat(stepSize);
+  // Simulate each wanderNoise.
+  for (var n = 0; n <= 2; n += stepSize) {
+    plotNoise(n);
+  }
+}
+
+/**
+ * Plot the energyPerTick at given wanderNoise.
+ * @param  {float} noise wanderingNoise to be simulated.
+ * @return {NULL}
+ */
+function plotNoise(noise) {
+  // Reset the canvas and bot.
+  reset();
+  // Set the bot wandering noise and the duration of simulation.
+  bot.wanderNoise = noise;
+  var duration = select("#duration").value();
+  duration = parseFloat(duration);
+  // Simulate.
+  for (var i = 0; i < duration; i++) {
+    update();
+  }
+  stop();
+  plot(bot.wanderNoise, bot.energyPerTick, 'bo');
 }
