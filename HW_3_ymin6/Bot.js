@@ -10,8 +10,6 @@ class Bot {
     this.r = 20;
     this.heading = 3*PI/4;
     this.speed = 3;
-    this.vx = this.speed * cos(this.heading);
-    this.vy = this.speed * sin(this.heading);
     this.energy = 0;
     this.wanderNoise = select("#noise").value();
     this.energyPerTick = 0;
@@ -52,24 +50,5 @@ class Bot {
     stroke(0);
     line(0, 0, this.r, 0);
     pop();
-  }
-
-  updateVelocity() {
-    this.vx = this.speed * cos(this.heading);
-    this.vy = this.speed * sin(this.heading);
-  }
-
-  heading2Vec() {
-    let vx = cos(this.heading);
-    let vy = sin(this.heading);
-    return vx, vy;
-  }
-
-  vec2Heading(vx, vy) {
-    return Math.atan(vy/vx);
-  }
-
-  calcHeading() {
-
   }
 }
