@@ -19,26 +19,13 @@ class Bot {
 
   update() {
     /** Deal with the movement here. */
-    // this.heading += random(-this.wanderNoise, this.wanderNoise);
-    let vx = cos(this.heading);
-    let vy = sin(this.heading);
-    let nextX = this.x + this.speed * vx;
-    let nextY = this.y + this.speed * vy;
-
-    if (nextX <= this.r || nextX >= width-this.r) {
-      vx *= -1;
-      nextX = this.x;
-      // this.heading = Math.atan(vy / vx);
-    }
-    if (nextY <= this.r || nextY >= height-this.r) {
-      vy *= -1;
-      nextY = this.y;
-      this.heading = Math.atan(vy / vx);
-    }
-    this.x = nextX;
-    this.y = nextY;
-
-    console.log(this.heading);
+    this.heading += random(-this.wanderNoise, this.wanderNoise);
+    // New (x,y)
+    this.x = this.x + this.speed * cos(this.heading);
+    this.y = this.y + this.speed * sin(this.heading);
+    // Apply constrains to the arena.
+    this.x = constrain(this.x, this.r, width-this.r);
+    this.y = constrain(this.y, this.r, height-this.r);
     /** Eat the food!! */
     this.consume();
     this.energyPerTick /= itick;
@@ -70,5 +57,19 @@ class Bot {
   updateVelocity() {
     this.vx = this.speed * cos(this.heading);
     this.vy = this.speed * sin(this.heading);
+  }
+
+  heading2Vec() {
+    let vx = cos(this.heading);
+    let vy = sin(this.heading);
+    return vx, vy;
+  }
+
+  vec2Heading(vx, vy) {
+    return Math.atan(vy/vx);
+  }
+
+  calcHeading() {
+
   }
 }
