@@ -84,6 +84,7 @@ function simulation() {
   for (var n = 0; n <= 2; n += stepSize) {
     plotNoise(n);
   }
+  reset();
 }
 
 /**
