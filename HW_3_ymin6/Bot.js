@@ -8,7 +8,7 @@ class Bot {
     this.x = width - 50;
     this.y = height / 2;
     this.r = 20;
-    this.heading = 3*PI/4;
+    this.heading = PI/2;
     this.speed = 3;
     this.energy = 0;
     this.wanderNoise = select("#noise").value();

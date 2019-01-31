@@ -9,9 +9,14 @@ canvas {
 }
 
 user {
-  color: red;
+  color: black;
+  font-weight: 12;
 }
 
+question {
+    color: black;
+    font-weight: bold;
+}
 #run {
   background-color: lightGreen;
 }
