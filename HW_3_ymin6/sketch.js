@@ -20,6 +20,10 @@ function setup() {
 }
 
 function draw() {
+  if (select("#simulation").checked() == true) {
+    simulation();
+    return;
+  }
   let count = select("#warp").checked() ? 100 : 1;
   if (!paused)
     for (let i = 0; i < count; i++) update();
@@ -51,6 +55,13 @@ function addPoint() {
     plot(bot.wanderNoise, bot.energyPerTick, 'bo');
   } else {
     console.log('error: bot.energyPerTick does not exist');
+  }
+}
+
+function simulation() {
+  bot.wanderNoise = 0.3;
+  if (itick < 100) {
+    update();
   }
 }
 

@@ -26,7 +26,7 @@ class Bot {
     this.y = constrain(this.y, this.r, height-this.r);
     /** Eat the food!! */
     this.consume();
-    this.energyPerTick /= itick;
+    this.energyPerTick = this.energy / itick;
   }
 
   consume() {
