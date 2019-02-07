@@ -30,35 +30,41 @@
     <ol>
     <li>The wander controller has been provided for you. Run 2000 steps of the wander controller.
       What was the mean value of the temperature that you observed after 2000 steps?<br>
-      <user>your answer here</user>
+      <user>Average temperature: 0.482</user>
     </li>
     <li>In Bot.js, a simple positive-orthokinesis controller has been provided for you.
       For positive orthokinesis, the bot moves faster in warmer areas of the environment.
       In this simple implementation,the speed of the bot increases linearly with
       temperature.
       What was the mean temperature that you observed after 2000 steps?<br>
-      <user>your answer here</user>
+      <user>Average temperature: 0.379</user>
     </li>
     <li>Now modify the orthokinesisPos controller to make it more effective, such that
       the average temperature of the population is <u>less than 0.25</u> after 2000 steps.
       Implement a strategy where the speed is 0 when the temperature is below some
       threshold value and is 1 when the temperature is above that value.
       What threshold value did you use, and what was the average temperature?<br>
-      <user>your answer here</user>
+      <user>
+        Threshold: 0.25<br>
+        Average temperature: 0.214
+      </user>
     </li>
     <li>A simple negative-orthokinesis controller has been provided for you.
       For negative orthokinesis, the bot moves slower in warmer areas of the environment.
       In this simple implementation,the speed of the bot decreases linearly with
       temperature.
       What was the mean temperature that you observed?<br>
-      <user>your answer here</user>
+      <user>Average temperature: 0.603</user>
     </li>
     <li>Now modify the orthokinesisNeg controller to make it more effective, such that
       the average temperature of the population is <u>greater than 0.75</u> after 2000 steps.
       Implement a strategy where the speed is 1 when the temperature is below some
       threshold value and is 0 when the temperature is above that value.
       What threshold value did you use, and what was the average temperature?<br>
-      <user>your answer here</user>
+      <user>
+        Threshold: 0.75<br>
+        Average temperature: 0.762
+      </user>
     </li>
     <li>Now implement the run-tumble controller. The bot speed should always be 1.
       The turn angle should be 0 if the current temperature is greater than the temperature
@@ -68,7 +74,7 @@
       When your controller is working properly, the
       average temperature should be <u>greater than 0.75</u> after 2000 steps.
       What was the average temperature that your controller was able to achieve?<br>
-      <user>your answer here</user>
+      <user>Average temperature: 0.803</user>
     </li>
   </ol>
   </body>

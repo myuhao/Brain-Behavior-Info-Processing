@@ -41,20 +41,24 @@ class Bot {
         break;
       case 'orthokinesisPos':
         // bot speed increases with temperature
-        this.speed = this.tsense;
+        // this.speed = this.tsense;
+        this.speed = stepPositive(this.tsense);
         this.turnAngle = 0.1 * random(-1, 1);
         break;
       case 'orthokinesisNeg':
         // bot speed decreases with temperature
-        this.speed = 1 - this.tsense;
+        // this.speed = 1 - this.tsense;
+        this.speed = stepNegative(this.tsense);
         this.turnAngle = 0.1 * random(-1, 1);
         break;
       case 'run-tumble':
         // bot tumbles if temperature is decreasing
         // otherwise it goes straight
         this.speed = 1;
-        if (this.tsense < this.memory) {
-          this.turnAngle = 0.1 * random(-1, 1);
+        if (this.tsense <= this.memory) {
+          this.turnAngle = Math.PI * random(-1, 1);
+        } else {
+          this.turnAngle = 0;
         }
         break;
     }
@@ -71,5 +75,33 @@ class Bot {
     stroke(0);
     line(0, 0, this.r, 0);
     pop();
+  }
+}
+
+/**
+ * A step size function for positive orthokinesis.
+ * @param  {float} temperature The current temperature between 0 to 1.
+ * @return {int}             1 if the temerature is over threshold, 0 otherwise.
+ */
+function stepPositive(temperature) {
+  var threshold = 0.25;
+  if (temperature > threshold) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+/**
+ * A step size function for negative orthokinesis.
+ * @param  {float} temperature The current temperature between 0 to 1.
+ * @return {int}             1 if the temerature is below threshold, 0 otherwise.
+ */
+function stepNegative(temperature) {
+  var threshold = 0.75;
+  if (temperature < threshold) {
+    return 1;
+  } else {
+    return 0;
   }
 }
