@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.min.js"></script>
+    <script src="https://mcb419.github.io/js/sprintf.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8" />
+    <script src="Bot.js"></script>
+    <script src="World.js"></script>
+    <script src="sketch.js"></script>
+    <script src="expt.js"></script>
+  </head>
+  <body>
+    <h2>HW04 - kinesis</h2>
+    <div id="canvas"></div>
+    <select id="controller" onchange="draw()">
+      <option value="wander">wander</option>
+      <option value="orthokinesisPos">orthokinesisPos</option>
+      <option value="orthokinesisNeg">orthokinesisNeg</option>
+      <option value="run-tumble">run-tumble</option>
+    </select>
+    <button id="reset" onclick="reset()">Reset</button>
+    <button id="run" onclick="run()">Run</button>
+    <button id="stop" onclick="stop()">Stop</button>
+    <input type="checkbox" id="warp">Warp speed
+  <br>
+    <h3>Questions
+    </h3>
+    <ol>
+    <li>The wander controller has been provided for you. Run 2000 steps of the wander controller.
+      What was the mean value of the temperature that you observed after 2000 steps?<br>
+      <user>your answer here</user>
+    </li>
+    <li>In Bot.js, a simple positive-orthokinesis controller has been provided for you.
+      For positive orthokinesis, the bot moves faster in warmer areas of the environment.
+      In this simple implementation,the speed of the bot increases linearly with
+      temperature.
+      What was the mean temperature that you observed after 2000 steps?<br>
+      <user>your answer here</user>
+    </li>
+    <li>Now modify the orthokinesisPos controller to make it more effective, such that
+      the average temperature of the population is <u>less than 0.25</u> after 2000 steps.
+      Implement a strategy where the speed is 0 when the temperature is below some
+      threshold value and is 1 when the temperature is above that value.
+      What threshold value did you use, and what was the average temperature?<br>
+      <user>your answer here</user>
+    </li>
+    <li>A simple negative-orthokinesis controller has been provided for you.
+      For negative orthokinesis, the bot moves slower in warmer areas of the environment.
+      In this simple implementation,the speed of the bot decreases linearly with
+      temperature.
+      What was the mean temperature that you observed?<br>
+      <user>your answer here</user>
+    </li>
+    <li>Now modify the orthokinesisNeg controller to make it more effective, such that
+      the average temperature of the population is <u>greater than 0.75</u> after 2000 steps.
+      Implement a strategy where the speed is 1 when the temperature is below some
+      threshold value and is 0 when the temperature is above that value.
+      What threshold value did you use, and what was the average temperature?<br>
+      <user>your answer here</user>
+    </li>
+    <li>Now implement the run-tumble controller. The bot speed should always be 1.
+      The turn angle should be 0 if the current temperature is greater than the temperature
+      on the previous time step. The turn angle should be <code>PI * random(-1, 1)</code>
+      otherwise.  You'll need to use <code>this.memory</code> to store information
+      about the temperature on the previous time step.
+      When your controller is working properly, the
+      average temperature should be <u>greater than 0.75</u> after 2000 steps.
+      What was the average temperature that your controller was able to achieve?<br>
+      <user>your answer here</user>
+    </li>
+  </ol>
+  </body>
+</html>
