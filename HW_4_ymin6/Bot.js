@@ -11,7 +11,7 @@ class Bot {
     this.speed = 0;
     this.turnAngle = 0;
     this.tsense = world.getTemperature(this.x, this.y);
-    this.memory = 0; // for the run-tumble controller
+    this.memory = this.tsense; // Initialize to the start temperature.
   }
 
   update() {
@@ -21,7 +21,8 @@ class Bot {
     this.y += this.speed * sin(this.heading);
     // wrapped boundary conditions here
     this.x = (this.x + width) % width;
-    this.y = (this.y + height) % height
+    this.y = (this.y + height) % height;
+    this.memory = this.tsense; // Store the temp from the last tick.
   }
 
   controller() {
@@ -31,7 +32,7 @@ class Bot {
     // default values for speed and turnAngle
     this.speed = 0;
     this.turnAngle = 0.1;
-    
+
     // switch controller based on menu setting
     switch (select("#controller").value()) {
       case 'wander':
@@ -51,6 +52,10 @@ class Bot {
       case 'run-tumble':
         // bot tumbles if temperature is decreasing
         // otherwise it goes straight
+        this.speed = 1;
+        if (this.tsense < this.memory) {
+          this.turnAngle = 0.1 * random(-1, 1);
+        }
         break;
     }
   }
