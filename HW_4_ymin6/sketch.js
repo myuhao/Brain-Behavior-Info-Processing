@@ -3,10 +3,16 @@
 var paused = false;
 var itick; // simulation clock
 var world; // the environment (provides temperature info)
+var bots; // The array that holds the bots objects.
+var NUM_BOTS = 100;
 
 function setup() {
   createCanvas(400, 300).parent("#canvas");
   world = new World();
+  bots = new Array();
+  for (var i = 0; i < NUM_BOTS; i++) {
+    bots.push(new Bot());
+  }
   reset();
 }
 
@@ -27,6 +33,10 @@ function draw() {
 
   // you can make changes below this point
   world.display();
+  /** Draw each bot in the array. */
+  for (let bot of bots) {
+    bot.draw();
+  }
 
   // text display
   noStroke();
@@ -45,11 +55,19 @@ function draw() {
 function reset() {
   stop();
   itick = 0;
+  /** Reset each bot in the array. */
+  for (let bot of bots) {
+    bot.reset();
+  }
   draw();
 }
 
 function update() {
   itick++;
+  /** Update all bots. */
+  for (let bot of bots) {
+    bot.update();
+  }
 }
 
 function run() {
@@ -69,7 +87,7 @@ function calcStats(adata) {
   //   if you call stats = calcStats([0, 1, 2])
   //   then stats.mean should be 1
   //   and stats.std should be 1
-  // 
+  //
   var mean = 0;
   var std = 0;
 
