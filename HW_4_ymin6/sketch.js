@@ -2,6 +2,7 @@
 
 var paused = false;
 var itick; // simulation clock
+var averageTemp; // Average temperature at each frame.
 var world; // the environment (provides temperature info)
 var bots; // The array that holds the bots objects.
 var NUM_BOTS = 100;
@@ -11,7 +12,8 @@ function setup() {
   world = new World();
   bots = new Array();
   for (var i = 0; i < NUM_BOTS; i++) {
-    bots.push(new Bot());
+    var temp = new Bot();
+    bots.push(temp);
   }
   reset();
 }
@@ -34,10 +36,13 @@ function draw() {
   // you can make changes below this point
   world.display();
   /** Draw each bot in the array. */
+  averageTemp = 0;
   for (let bot of bots) {
     bot.draw();
+    averageTemp += bot.tsense;
   }
-
+  averageTemp = averageTemp / NUM_BOTS;
+  averageTemp = averageTemp.toFixed(3);
   // text display
   noStroke();
   fill(220, 200);
@@ -47,7 +52,7 @@ function draw() {
   textAlign('left');
   text(itick, 5, 15);
   textAlign('center');
-  text('mean Temp = ???', width / 2, 15); // FIX THIS
+  text('mean Temp = ' + averageTemp, width / 2, 15);
   textAlign('right');
   text(select("#controller").value(), width - 5, 15);
 }
@@ -90,6 +95,16 @@ function calcStats(adata) {
   //
   var mean = 0;
   var std = 0;
+  for (let i of adata) {
+    mean += i;
+  }
+  mean = mean / mean.length;
+
+  for (let i of adata) {
+    std += (i - mean) * (i - mean);
+  }
+  std = std / mean.length;
+  std = Math.pow(std, 0.5);
 
   return {
     mean,
