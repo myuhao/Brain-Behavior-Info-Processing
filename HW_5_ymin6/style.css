@@ -1,0 +1,32 @@
+
+button {
+  margin: 10px 5px;
+  padding: 5px;
+  background-color: wheat;
+}
+
+canvas {
+  display: block;
+}
+
+code {
+  font-size: 80%;
+  font-family: Courier;
+  color: blue;
+}
+
+user {
+  color: red;
+}
+
+#run {
+  background-color: lightGreen;
+}
+
+#stop {
+  background-color: pink;
+}
+
+#expt {
+  background-color: orange;
+}
