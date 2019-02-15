@@ -35,10 +35,10 @@ class Bot {
         this.cfill = 'blue';
     }
   }
-  
+
   controller() {
     this.updateSensors();
-    
+
     // EDIT THE CODE BELOW TO IMPLEMENT BRAITENBERG CONTROLLERS
     // Each controller must use just 2 lines of code.
     // Do not use "if" statements in your code
@@ -46,8 +46,11 @@ class Bot {
     // (crossed vs uncrossed, excitation vs inhibition)
     switch (select("#controller").value()) {
       case 'aggressive':
-        this.mtrL = 0;
-        this.mtrR = 2;
+        // earn points for hitting the light
+        // OFFSET = 5.
+        // GAIN = 10.
+        this.mtrL = 5 + 10 * this.snsR;
+        this.mtrR = 5 + 10 * this.snsL;
         break;
       case 'coward':
         this.mtrL = 1;
