@@ -53,8 +53,11 @@ class Bot {
         this.mtrR = 5 + 10 * this.snsL;
         break;
       case 'coward':
-        this.mtrL = 1;
-        this.mtrR = 0;
+        // earn points for staying outside of yellow circle and moving slow
+        // OFFSET = 0.1.
+        // GAIN = 20.
+        this.mtrL = 0.1 + 20 * this.snsL;
+        this.mtrR = 0.1 + 20 * this.snsR;
         break;
       case 'explorer':
         this.mtrL = -1;
