@@ -46,6 +46,7 @@ class Bot {
     // (crossed vs uncrossed, excitation vs inhibition)
     switch (select("#controller").value()) {
       case 'aggressive':
+        // crossed excitation.
         // earn points for hitting the light
         // OFFSET = 5.
         // GAIN = 10.
@@ -53,6 +54,7 @@ class Bot {
         this.mtrR = 5 + 10 * this.snsL;
         break;
       case 'coward':
+        // uncrossed excitation.
         // earn points for staying outside of yellow circle and moving slow
         // OFFSET = 0.1.
         // GAIN = 20.
@@ -60,6 +62,7 @@ class Bot {
         this.mtrR = 0.1 + 20 * this.snsR;
         break;
       case 'explorer':
+        // crossed inhibition.
         // earn points for moving quickly outside yellow
         // entering blue and not entering red
         // OFFSET = 5.
@@ -69,8 +72,11 @@ class Bot {
         break;
       case 'love':
         // uncrossed inhibition
-        this.mtrL = 1;
-        this.mtrR = 1;
+        // earn points for stopping between red and blue circles
+        // OFFSET = 5.
+        // GAIN = -20.
+        this.mtrL = 5 - 20 * this.snsL;
+        this.mtrR = 5 - 20 * this.snsR;
         break;
     }
   }
