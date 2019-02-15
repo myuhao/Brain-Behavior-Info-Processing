@@ -60,8 +60,12 @@ class Bot {
         this.mtrR = 0.1 + 20 * this.snsR;
         break;
       case 'explorer':
-        this.mtrL = -1;
-        this.mtrR = 1;
+        // earn points for moving quickly outside yellow
+        // entering blue and not entering red
+        // OFFSET = 5.
+        // GAIN = -10.
+        this.mtrL = 5 - 10 * this.snsR;
+        this.mtrR = 5 - 10 * this.snsL;
         break;
       case 'love':
         // uncrossed inhibition
