@@ -24,7 +24,7 @@
   the lowerBound and upperBound for a gene to zero, silences the gene.
   <p></p>
   <div id="canvas"></div>
-  <textarea id="specs" style="width:600px; height:40px">bot.genes = [3, 0, 0, 3, 0, 0];
+  <textarea id="specs" style="width:600px; height:40px">bot.genes = [4, 0, 9, 3, 9, 0];
     </textarea>
   <br>
   <button id="b_reset" style="background-color: lightBlue">Reset</button>
@@ -34,11 +34,11 @@
   <div id="outp"></div>
   <hr>
   <h3>GA evolution</h3>
-  <textarea id="ga_specs" style="width:500px; height:100px">popSize = 10;
-crossoverRate = 0.0; // per reproduction
-mutationRate = 0.0; // per reproduction
-lowerBound = [ 0, 0, 0, 0, 0, 0];
-upperBound = [ 0, 0, 0, 0, 0, 0];
+  <textarea id="ga_specs" style="width:500px; height:100px">popSize = 100;
+crossoverRate = 2; // per reproduction
+mutationRate = 10; // per reproduction
+lowerBound = [-5, 0, 0, -9, 0, -99];
+upperBound = [-5, 0, 0, 9, 0, 99];
   </textarea>
   <br>
   <button id="ga_reset">GA Reset</button>
@@ -54,31 +54,32 @@ upperBound = [ 0, 0, 0, 0, 0, 0];
   <ol>
     <li>What value of bot.genes corresponds to a Braitenberg "aggressive" controller,
       with left/right motor offsets of 3 and crossed-connection strengths of 9?<br>
-      <user>Your answer here</user>
+      <user>[3, 0, 9, 3, 9, 0]</user>
     </li>
     <li>Enter this value for bot.genes in the top textbox;
       click "Reset" and then "Run/Pause". Describe the bot's behavior.<br>
-      <user>Your answer here</user>
+      <user>The bot moves directly towards the food. However, the bot cannot turn when it hits the wall, causing it to glide along the wall.</user>
     </li>
     <li>Leaving bot.genes as above, click "Run Expt". What is the mean
       fitness and max fitness of this controller? Why do they differ?<br>
-      <user>Mean fitness: x.x (should less than 10)</user><br>
-      <user>Max fitness: xx</user><br>
-      <user>Explanation</user>
+      <user>Mean fitness: 5.2</user><br>
+      <user>Max fitness: 23</user><br>
+      <user>The food is distributed randomly, so the max and mean will not necessarily be the same.</user>
     </li>
     <li>Leave the genes as above, but change the offset of the LEFT motor only from 3 to 4.
       What is the mean and max fitness of this controller?
       Why is the mean fitness so much higher than in question 3?<br>
-      <user>Mean fitness: xxx.x (should greater than 100)</user><br>
-      <user>Max fitness: xx</user><br>
-      <user>Explanation</user>
+      <user>bot.genes = [4, 0, 9, 3, 9, 0]</user><br>
+      <user>Mean fitness: 118.3 (should greater than 100)</user><br>
+      <user>Max fitness: 146</user><br>
+      <user>The unbalanced movement of the left and right motor allows the bot to move even when hits a wall. It greatly increased the effciency</user>
     </li>
     <li>Now we will try to evolve an even more effective crossed-connection controller.
       What values of lowerBound and upperBound would allow the motor offset
       genes to vary between -9 to 9, the crossed-connection strengths to vary between
       -99 to 99, and the uncrossed connection strengths to be zero?<br>
-      <user>lowerBound: [ x, x, x, x, x, x]</user><br>
-      <user>upperBound: [ x, x, x, x, x, x]</user>
+      <user>lowerBound: [-9, 0, -99, -9, -99, 0]</user><br>
+      <user>upperBound: [9, 0, 99, 9, 99, 0]</user>
     </li>
     <li>In the GA textbox, choose initial values of popSize, crossoverRate,
         mutationRate, and specify the lowerBound and upperBound from above.
@@ -86,37 +87,40 @@ upperBound = [ 0, 0, 0, 0, 0, 0];
       Evolution will stop automatically after 50 generations.
       If necessary, readjust popSize, crossoverRate and mutationRate and re-evolve.
       What are the Best genome and Best fit values that you obtained (shown in blue)?<br>
-      <user>Best gene: [ x, x, x, x, x, x]</user><br>
-      <user>Best fit: xxx(should be greater than 200) </user>
+      <user>popSize = 100<br>
+            crossoverRate = 2<br>
+            mutationRate = 10<br></user>
+      <user>Best gene:  [-7.88, 0.00, 71.70, 2.44, 53.78, 0.00]</user><br>
+      <user>Best fit: 212.00 </user>
     </li>
     <li>Click "GA Load Best" to transfer this genome to the upper dialog box. Click
       "Reset" and "Run/Pause". Describe the bot behavior. How does it differ from the
       behavior observed in Question #4?<br>
-      <user>Your answer here</user>
+      <user>The bot is actively lookiung for food with only a few collison to the wall. Even collision happens, it turns around very quickly.</user>
     </li>
     <li>
       What are the relative signs of the two motor offsets? What does this imply about
       the bot behavior when it doesn't have any sensory input?<br>
-        <user>Your answer here</user>
+        <user>The are opposite. It suggested that the bot will sping around itself and not moving when no sensory input is added.</user>
     </li>
     <li>Now evolve a controller that allows both crossed and uncrossed connections.
       Report the gene and fitness values below. Does allowing both crossed and uncrossed
       connections seem to improve performance, degrade performance, or have little effect?<br>
-      <user>Best gene: [ x, x, x, x, x, x]</user><br>
-      <user>Best fit: xxx</user><br>
-      <user>Answer question</user>
+      <user>Best gene: [5.29, -51.07, 88.01, -9.00, 99.00, -18.87]</user><br>
+      <user>Best fit: 220.00</user><br>
+      <user>With uncorssed connections allowed, the performance of the robot seems to improved slightly. </user>
     </li>
     <li>Now evolve a controller under the constraints that gene 0 is fixed at -5,
       genes 1 and 2 are fixed at zero, gene 3 can vary between -9 and 9, gene 4 is fixed
       at zero and gene 5 can vary between -99 and 99.
       Report the best gene and fitness values that you obtained:<br>
-      <user>Best gene: [ x, x, x, x, x, x]</user><br>
-      <user>Best fit: xxx (should be greater than 50)</user><br>
+      <user>Best gene: [-5.00, 0.00, 0.00, -4.70, 0.00, 8.18]</user><br>
+      <user>Best fit: 68.00</user><br>
     </li>
     <li>Use "GA Load Best" to load this genome into the simulator. Run the simulation
       and describe the bot behavior.  Is this a surprising mode of foraging? Would you have
       been likely to discover this on your own without using a GA?<br>
-      <user>your answer here</user><br>
+      <user>The bot spins a lot compare to other modes. It first locates itself in an area with a lot of food, then spin to collect the food. It is not effencient since a lot of energy is used to spin itself. This mode can be hard to discover.</user><br>
     </li>
   </ol>
   <p>End of assignment</p>
