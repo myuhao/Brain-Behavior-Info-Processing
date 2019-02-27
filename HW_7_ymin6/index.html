@@ -1,0 +1,116 @@
+<!DOCTYPE html><html><head>
+  <title>Evolve Worm Controller</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.min.js"></script>
+  <script src="https://mcb419.github.io/js/mplot.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="utf-8">
+  <script src="Bot.js"></script>
+  <script src="Trail.js"></script>
+  <script src="sim.js"></script>
+  <script src="DNA.js"></script>
+  <script src="Population.js"></script>
+  <script src="sketch.js"></script>
+</head>
+
+<body>
+  <h2>Evolve worm controller</h2>
+
+  <p>In this assignment, you will evolve a gene-based <i>C. elegans</i> controller that is able to function over a wide range of stimulus conditions.
+  </p>
+  <p>The bot variables that you will use for your controller are:
+  </p>
+    <ul>
+      <li><code>this.sns</code> - activation level of a chemosensory neuron (attractant concentration)
+      </li>
+      <li><code>this.v</code> - activation level of a sensory interneuron
+      </li>
+      <li><code>this.w</code> - activation level of a premotor neuron that controls turning
+      </li>
+    </ul>
+    <p>
+      The controller will be tested by starting the worm near the edge of the arena and seeing how efficiently it moves toward the peak.
+      The fitness value is the sum of the normalized attractant concentration experienced by the worm.
+      If the worm spends 1000 ticks at 100% of peak concentration, the fitness would be 1000.
+      If the worm spends 1000 ticks at 50% of peak concentration, the fitness would be 500.
+      The more time the worm spends near the peak, the higher the fitness.
+    </p>
+    <p>
+      The controller will be tested in three different environments (peak concentrations = 0.1, 1.0, and 10.0).
+      The test will consist of three trials (1000 ticks with a peak concentration of 0.1, 1000 ticks with a peak of 1.0 and 1000 ticks with a peak of 10.0).
+      The worm is repositioned at the edge of the arena at the beginning of each trail.
+    </p>
+    <p>
+      Follow the instructions and answer questions below to complete the assignment.
+    </p>
+    <div id="canvas"></div>
+    <textarea id="specs" style="width:600px; height:40px">bot.genes = [20, -870, 919, 0.4];
+    </textarea>
+    <br>
+    <button id="b_reset" style="background-color: lightBlue">Reset</button>
+    <button id="b_run" style="background-color: lightGreen">Run/Pause</button>
+    <button id="b_single" style="background-color: lightCyan">Single Step</button>
+    <button id="b_expt" style="background-color: pink">Run Expt</button>
+    <label>peak: &nbsp;</label><input id="peak" type="text" size="3" value="1">
+    <pre id="outp"></pre>
+    <hr>
+    <h3>GA evolution</h3>
+    <textarea id="ga_specs" style="width:500px; height:100px">popSize = 10;
+crossoverRate = 0; // per reproduction
+mutationRate = 0; // per reproduction
+lowerBound = [0, 0, 0, 0];
+upperBound = [0, 0, 0,  0];
+  </textarea>
+    <br>
+    <button id="ga_reset">GA Reset</button>
+    <button id="ga_run">GA Run</button>
+    <button id="ga_load">GA Load Best</button>
+    <div id="best"></div>
+    <hr>
+    <p>Fitness vs generation:</p>
+    <canvas id="fig1" width="400" height="300"></canvas>
+    <div id="stats"></div>
+    <div id="all"></div>
+    <h3>Instructions</h3>
+    <ol>
+      <li>Edit the bot controlle code to implement the following gene-based algorithm:<br>
+        <br>a) use 4 genes: let g = this.genes; g[0] is a time constant, g[1]-g[3] are weights
+        <br>b) sensory interneuron (this.v) update rule: this.v += (this.sns - this.v)/g[0]
+        <br>c) premotor neuron (this.w) update rule: this.w = g[1]*this.sns + g[2]*this.v + g[3];
+        <br>d) motor output (controls turning): this.heading += constrain(this.w, 0, 0.1);
+      </li>
+      <li>In the GA textbox, choose initial values of popSize, crossoverRate,
+        mutationRate, and specify the lower/upper bounds.
+        Hint: the time constant must be positive; g[3] will be much smaller in magnitude than
+        g[1] and g[2].
+        Click "GA Reset" and then "GA Run."
+        Evolution will stop automatically after 100 generations. You can stop earlier by
+        clicking the "GA Run" button again.
+        If necessary, readjust parameters and re-evolve until you are able to achieve a best
+        fitness greater than 2600 and an average fitness greater than 2400.
+        What are the Best genome and Best fit values that you obtained (shown in blue)?<br>
+        <user>Best gene: your answer</user><br>
+        <user>Best fit: your answer (should be greater than 2600) </user><br>
+        <user>Avg fit: your answer (should be greater than 2400) </user>
+      </li>
+      <li>Click "GA Load Best" to transfer this genome to the upper dialog box.
+        Set the peak intensity to 1, then click
+        "Reset" and "Run/Pause". Describe the bot behavior. Does the shape
+        of the trajectory depend on the worm's initial heading direction? (click
+        "Reset" multiple times to pick different random initial headings.)<br>
+        <user>Your answer here.</user>
+      </li>
+      <li> Try different values of peak concentration (0.1, 1, 10.0). Does the
+        peak concentration have an influence on the general shape
+        of the trajectory?<br>
+        <user>Your answer here.</user>
+      </li>
+      <li>How would you characterize this evolved strategy in terms of the various
+        forms of kinesis and taxis that we have discussed in class?<br>
+        <user>Your answer here.</user>
+      </li>
+    </ol>
+    <p>End of assignment</p>
+
+
+</body></html>
