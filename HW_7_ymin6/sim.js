@@ -31,7 +31,7 @@ function simReset() { // reset simulation to initial state
   bot.reset();
   bot.trail.reset();
   let specs = select("#specs").value();
-  eval(specs);
+  eval(specs); // Run: bot.genes = [20, -870, 919, 0.4];
 }
 
 function simSetup() { // called once at beginning to setup simulation

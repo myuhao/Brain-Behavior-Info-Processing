@@ -6,7 +6,26 @@ class Bot {
 
   controller() {
     // Edit to match the specification in INSTRUCTIONS
-    
+    // Check for genes length.
+    if (this.genes.length != 4) {
+      throw "Genes number not matching!";
+      return;
+    }
+    // Define the constants:
+    let tau = this.genes[0];
+    let alpha = this.genes[1];
+    let beta = this.genes[2];
+    let gamma = this.genes[3];
+    /**
+     * Update using the following rules:
+     *  1) sensory interneuron (this.v) update rule: this.v += (this.sns - this.v)/g[0]
+     *  2) premotor neuron (this.w) update rule: this.w = g[1]*this.sns + g[2]*this.v + g[3]
+     *  3) motor output (controls turning): this.heading += constrain(this.w, 0, 0.1)
+     */
+     this.v += (this.sns - this.v)/tau;
+     this.w = alpha*this.sns + beta*this.v + gamma;
+     this.heading += constrain(this.w, 0, 0.1);
+     return;
   }
 
   reset() {
@@ -28,7 +47,7 @@ class Bot {
     this.xseg[0] = this.x;
     this.yseg[0] = this.y;
     this.hseg[0] = this.heading;
-    
+
     for (let i = 1; i < this.nseg; i++) {
       this.hseg[i] = this.hseg[i - 1] + (i / this.nseg);
     }
@@ -52,12 +71,12 @@ class Bot {
   update() {
     this.updateSensors();
     this.controller();
-    
+
     this.x += cos(this.heading);
     this.y += sin(this.heading);
-    
+
     bot.fitness += bot.sns / attractant.peak;
-    
+
     // start in slightly curled body position
     this.xseg[0] = this.x;
     this.yseg[0] = this.y;
