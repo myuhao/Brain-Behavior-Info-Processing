@@ -45,6 +45,7 @@
     </p>
     <div id="canvas"></div>
     <textarea id="specs" style="width:600px; height:40px">bot.genes = [20, -870, 919, 0.4];
+bot.genes = [1, 1, 1, 1];
     </textarea>
     <br>
     <button id="b_reset" style="background-color: lightBlue">Reset</button>
@@ -56,10 +57,20 @@
     <hr>
     <h3>GA evolution</h3>
     <textarea id="ga_specs" style="width:500px; height:100px">popSize = 10;
-crossoverRate = 0; // per reproduction
-mutationRate = 0; // per reproduction
-lowerBound = [0, 0, 0, 0];
-upperBound = [0, 0, 0,  0];
+crossoverRate = 10; // per reproduction
+mutationRate = 7; // per reproduction
+lowerBound = [0, -1000, 0, 0.0];
+upperBound = [100, 0, 1000,  1];
+/**
+upperBound[1] = 10000;
+upperBound[2] = 10000;
+upperBound[3] = 1;
+lowerBound[1] = -upperBound[1];
+lowerBound[2] = -upperBound[2];
+lowerBound[3] = -upperBound[3];
+*/
+
+console.log("Genes: " + bot.genes);
   </textarea>
     <br>
     <button id="ga_reset">GA Reset</button>

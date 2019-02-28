@@ -13,14 +13,15 @@ class Bot {
     }
     // Define the constants:
     let tau = this.genes[0];
+    tau = tau != 0 ? tau : Number.MIN_VALUE; // Use underflow limit as 0 to handle DIVISION_BY_ZERO
     let alpha = this.genes[1];
     let beta = this.genes[2];
     let gamma = this.genes[3];
     /**
      * Update using the following rules:
-     *  1) sensory interneuron (this.v) update rule: this.v += (this.sns - this.v)/g[0]
-     *  2) premotor neuron (this.w) update rule: this.w = g[1]*this.sns + g[2]*this.v + g[3]
-     *  3) motor output (controls turning): this.heading += constrain(this.w, 0, 0.1)
+     *   1) sensory interneuron (this.v) update rule: this.v += (this.sns - this.v)/g[0]
+     *   2) premotor neuron (this.w) update rule: this.w = g[1]*this.sns + g[2]*this.v + g[3]
+     *   3) motor output (controls turning): this.heading += constrain(this.w, 0, 0.1)
      */
      this.v += (this.sns - this.v)/tau;
      this.w = alpha*this.sns + beta*this.v + gamma;
