@@ -44,8 +44,7 @@
       Follow the instructions and answer questions below to complete the assignment.
     </p>
     <div id="canvas"></div>
-    <textarea id="specs" style="width:600px; height:40px">bot.genes = [20, -870, 919, 0.4];
-bot.genes = [1, 1, 1, 1];
+    <textarea id="specs" style="width:600px; height:40px">bot.genes = [27.10, -658.06, 690.55, 0.25];
     </textarea>
     <br>
     <button id="b_reset" style="background-color: lightBlue">Reset</button>
@@ -57,18 +56,10 @@ bot.genes = [1, 1, 1, 1];
     <hr>
     <h3>GA evolution</h3>
     <textarea id="ga_specs" style="width:500px; height:100px">popSize = 10;
-crossoverRate = 10; // per reproduction
-mutationRate = 7; // per reproduction
-lowerBound = [0, -1000, 0, 0.0];
-upperBound = [100, 0, 1000,  1];
-/**
-upperBound[1] = 10000;
-upperBound[2] = 10000;
-upperBound[3] = 1;
-lowerBound[1] = -upperBound[1];
-lowerBound[2] = -upperBound[2];
-lowerBound[3] = -upperBound[3];
-*/
+crossoverRate = 30; // per reproduction
+mutationRate = 5; // per reproduction
+lowerBound = [27.10, -658.06, 690.55, 0.25];
+upperBound = [27.10, -658.06, 690.55, 0.25];
 
 console.log("Genes: " + bot.genes);
   </textarea>
@@ -100,25 +91,39 @@ console.log("Genes: " + bot.genes);
         If necessary, readjust parameters and re-evolve until you are able to achieve a best
         fitness greater than 2600 and an average fitness greater than 2400.
         What are the Best genome and Best fit values that you obtained (shown in blue)?<br>
-        <user>Best gene: your answer</user><br>
-        <user>Best fit: your answer (should be greater than 2600) </user><br>
-        <user>Avg fit: your answer (should be greater than 2400) </user>
+        <p><user>Best gene: bot.genes = [27.10, -658.06, 690.55, 0.25]</user><br>
+        <user>Best fit: 2611.63 (should be greater than 2600) </user><br>
+        <user>Avg fit: 2506.06 (should be greater than 2400) </user><br>
+        <user>popSize = 10; <br>
+              crossoverRate = 30; <br>
+              mutationRate = 5; <br>
+              Evolution boundries:  <br>
+              lowerBound = [20, -700, 300, 0.0]; <br>
+              upperBound = [40, -300, 700,  1];
+        </user></p>
       </li>
       <li>Click "GA Load Best" to transfer this genome to the upper dialog box.
         Set the peak intensity to 1, then click
         "Reset" and "Run/Pause". Describe the bot behavior. Does the shape
         of the trajectory depend on the worm's initial heading direction? (click
         "Reset" multiple times to pick different random initial headings.)<br>
-        <user>Your answer here.</user>
+        <user>
+          <p>The worm moves in a clockwise circular motion towards the center of the concentration gradient. Once the worm reached the peak of the concentration, it circle around locally endlessly.</p>
+          <p>The initial direction does not change the general trajectory of the worm. No matter which direction the worm faces initially, it always move clockwise into the center.</p>
+        </user>
       </li>
       <li> Try different values of peak concentration (0.1, 1, 10.0). Does the
         peak concentration have an influence on the general shape
         of the trajectory?<br>
-        <user>Your answer here.</user>
+        <user>
+          <p>The general shape of the trajectory does not change at different concentrations.</p>
+        </user>
       </li>
       <li>How would you characterize this evolved strategy in terms of the various
         forms of kinesis and taxis that we have discussed in class?<br>
-        <user>Your answer here.</user>
+        <user>
+          <p>This is a example of klinokinesis because the speed of the worm is not changing with respect to the concentration while the heading is changing.</p>
+        </user>
       </li>
     </ol>
     <p>End of assignment</p>
