@@ -13,7 +13,7 @@ class Bot {
 
     // initialization
     if (cmd === 'init') {
-      this.state = 'wander';
+      this.state = 'aggressiveFast';
       this.counter = 0;
       return;
     }
@@ -24,19 +24,48 @@ class Bot {
 
     // transition rules
     switch (this.state) {
-      case 'wander':
-        if (this.sns.collision) this.transitionTo('spin');
+      /** Case when run into big food. */
+      case 'aggressiveFast':
+        if (this.sns.collision) {
+          this.transitionTo('spin');
+          break;
+        }
+        if (this.sns.deltaEnergy == 5) {
+          this.transitionTo('areaRestrictedSearch');
+        }
         break;
+      /** Case to break out of the sprial. */
+      case 'areaRestrictedSearch':
+        if (this.deltaEnergy == 5) {
+          this.counter = 0;
+        }
+        if (this.counter > 50) {
+          this.transitionTo('aggressiveFast');
+        }
+        break;
+      /** Case to handle collisons. */
       case 'spin':
-        if (this.counter > 15) this.transitionTo('wander');
+        if (this.counter > 15) this.transitionTo('aggressiveFast');
         break;
     }
+  }
+
+  areaRestrictedSearch() {
+    var val = 40;
+    this.mtr.left = val;
+    this.mtr.right = val / 4 + random(-val, val);
   }
 
   aggressive() {
     // aggressive - crossed excitation
     this.mtr.left = 3 + 20 * this.sns.right;
     this.mtr.right = 3 + 20 * this.sns.left;
+  }
+
+  aggressiveFast() {
+    // run fast with aggressive algorithm.
+    this.mtr.left = 30 + 200 * this.sns.right;
+    this.mtr.right = 30 + 200 * this.sns.left;
   }
 
   fsm1(cmd) {
@@ -76,7 +105,7 @@ class Bot {
   }
 
   wander() {
-    let rn = 5 * random(-1, 1);
+    let rn = 20 * random(-1, 1);
     this.mtr.left = 2 + rn;
     this.mtr.right = 2 - rn;
   }
@@ -108,7 +137,7 @@ class Bot {
   display() {
     // Braitenberg bugs
     push();
-    translate(this.x, this.y); 
+    translate(this.x, this.y);
     // text labels
     noStroke();
     fill(0);
@@ -122,7 +151,7 @@ class Bot {
     if (this.y > 0.8 * height) {
       ytxt = -20;
     }
- 
+
     let controllerString = this.controllerName;
     if (this.controllerName.substring(0, 3) === "fsm") { // FSM
       controllerString += ": " + this.state;
@@ -130,7 +159,7 @@ class Bot {
     text(controllerString, xtxt, ytxt);
     var energyString = "energy: " + nf(this.energy, 0, 0);
     text(energyString, xtxt, ytxt + 15);
-    
+
     // draw body
     stroke(0);
     fill(this.cfill);
@@ -142,7 +171,7 @@ class Bot {
     fill(0);
     ellipse(14, 5, 4);
     ellipse(14, -5, 4);
-    
+
     pop();
   }
 
@@ -158,7 +187,7 @@ class Bot {
     this.sns = {
       left: 0, // activation level for left sensor
       right: 0, // activation level for right sensor
-      collision: false, // true = hit wall/obstacle, 
+      collision: false, // true = hit wall/obstacle,
       deltaEnergy: 0, // energy gained on last time step
     };
 
@@ -173,33 +202,33 @@ class Bot {
 
 
   update() {
-    
+
     this.updateSensors();
-    
+
     // constrain after updating sensors to allow collision detection
     let r = this.dia / 2;
     this.x = constrain(this.x, r, width - r);
     this.y = constrain(this.y, r, height - r);
-    
+
     this.consume();
-    
+
     this.controller();
-    
+
     let newSpeed = constrain((this.mtr.left + this.mtr.right) / 2.0, -5.0, 5.0);
     this.heading += constrain((this.mtr.left - this.mtr.right) / this.dia, -0.2, 0.2);
     this.heading %= TWO_PI;
     this.x += newSpeed * cos(this.heading);
     this.y += newSpeed * sin(this.heading);
-    
+
   }
 
   updateSensors() {
-    
+
     let bx = this.x;
     let by = this.y;
     let r = this.dia / 2;
     this.sns.collision = (bx < r) || (bx > width - r) || (by < r) || (by > height - r);
-    
+
     this.sns.left = 0;
     this.sns.right = 0;
 
@@ -213,7 +242,7 @@ class Bot {
 
     let ux = Math.cos(this.heading);
     let uy = Math.sin(this.heading);
-    
+
     for (let p of pellets) {
       let distp = Math.sqrt((p.x - this.x) * (p.x - this.x) + (p.y - this.y) * (p.y - this.y));
       let dotprod = (p.x - this.x) * ux + (p.y - this.y) * uy;
@@ -224,7 +253,7 @@ class Bot {
         if (distLsq < 1) distLsq = 1;
         let distRsq = (p.x-xR)*(p.x-xR) + (p.y-yR)*(p.y-yR);
         if (distRsq < 1) distRsq = 1;
-        
+
         this.sns.left += p.intensity / distLsq;
         this.sns.right += p.intensity / distRsq;
       }
