@@ -8,6 +8,7 @@ var pellets = [];
 const NSTEPS = 2000;
 
 var controllerNames = [
+  "areaRestrictedSearch",
   "aggressive",
   "fsm1",
   "fsm2",
@@ -137,7 +138,7 @@ function setup() {
     simStep();
     redraw();
   });
-  
+
   select("#b_expt").mouseClicked(runExpt);
 
   simReset();
