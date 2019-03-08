@@ -28,6 +28,7 @@ function setupPellets() {
   pellets = [];
 
   // Green (visible) pellets, 16 randomly distributed (4 more will be in center of clusters below)
+  // randomSeed(100);
   for (let i = 0; i < 16; i++) {
     addGreen(random(10, width - 10), random(10, height - 10));
   }
@@ -140,6 +141,8 @@ function setup() {
   });
 
   select("#b_expt").mouseClicked(runExpt);
+
+  select("#b_genetic").mouseClicked(runGenetic);
 
   simReset();
 }

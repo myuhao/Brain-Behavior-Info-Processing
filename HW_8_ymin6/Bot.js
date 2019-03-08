@@ -15,13 +15,16 @@ class Bot {
     if (cmd === 'init') {
       this.state = 'aggressiveFast';
       this.counter = 0;
+      this.bigEnergy = 0;
       return;
     }
 
     // update
     this[this.state]();
     this.counter++;
-
+    if (this.sns.deltaEnergy == 5) {
+      this.bigEnergy += 1;
+    }
     // transition rules
     switch (this.state) {
       /** Case when run into big food. */
@@ -36,24 +39,37 @@ class Bot {
         break;
       /** Case to break out of the sprial. */
       case 'areaRestrictedSearch':
-        if (this.deltaEnergy == 5) {
-          this.counter = 0;
-        }
-        if (this.counter > 50) {
+        if (this.bigEnergy % 4 == 0 || this.counter > 400) {
+          if (this.counter > 400) {
+            this.bigEnergy = 0;
+          }
           this.transitionTo('aggressiveFast');
+          console.log(this.bigEnergy)
         }
         break;
       /** Case to handle collisons. */
       case 'spin':
-        if (this.counter > 15) this.transitionTo('aggressiveFast');
+        if (this.counter > 15 && this.bigEnergy % 4 == 0) {
+          this.transitionTo('aggressiveFast');
+          break;
+        }
+        if (this.counter > 15){
+          this.transitionTo("areaRestrictedSearch");
+          break;
+        }
         break;
     }
   }
 
+  randint() {
+    return random() > 0.5 ? 1 : 0;
+  }
+
   areaRestrictedSearch() {
-    var val = 40;
+    var val = this.genes[0];
+    val = 40
     this.mtr.left = val;
-    this.mtr.right = val / 4 + random(-val, val);
+    this.mtr.right = -randomGaussian(val, val/2);
   }
 
   aggressive() {
@@ -64,8 +80,8 @@ class Bot {
 
   aggressiveFast() {
     // run fast with aggressive algorithm.
-    this.mtr.left = 30 + 200 * this.sns.right;
-    this.mtr.right = 30 + 200 * this.sns.left;
+    this.mtr.left = this.genes[1] + this.genes[2] * this.sns.right;
+    this.mtr.right = this.genes[1] + this.genes[2] * this.sns.left;
   }
 
   fsm1(cmd) {
@@ -117,6 +133,8 @@ class Bot {
   constructor() {
     this.dia = 25;
     this.cfill = 'darkOrange';
+    this.genes = [15, 30, 200];
+    this.bigEnergy = 0;
     this.reset();
   }
 
