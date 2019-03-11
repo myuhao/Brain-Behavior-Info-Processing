@@ -26,3 +26,16 @@ pre {
 user {
   color: red;
 }
+
+table, th, td {
+  border: 1px solid;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+func {
+  background-color: white;
+  border-radius: 3px;
+  font-family: courier, monospace;
+  padding: 0 3px;
+}
