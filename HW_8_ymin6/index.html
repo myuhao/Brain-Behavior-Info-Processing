@@ -34,7 +34,7 @@
   <button id="b_expt">Run Experiment</button>
   <pre id="stats" style="color:blue">[will be filled automatically]</pre>
   <br>
-  <button id="b_genetic">Run Genetic</button>
+  <!-- <button id="b_genetic">Run Genetic</button> -->
   <h3>Scenario description</h3>
   <p style="font-size: 80%">
     <b>Pellets</b>
@@ -82,14 +82,37 @@
   <h3>Questions</h3>
   <ol>
     <li>List the individual "states" that you used in your fsm2 controller, with a one-line description of what each state does.<br>
-      <user>your answer here</user>
+      <user>
+        <table style="width:100%">
+          <tr>
+            <th>States</th> <th>Descriptions</th>
+          </tr>
+          <tr>
+            <td><func>aggressiveFast()</func></td><td>Move towards sensible food at high speed.</td>
+          </tr>
+          <tr>
+            <td><func>areaRestrictedSearch()</func></td><td>Sprial motions with randomness to explore the local area.</td>
+          </tr>
+          <tr>
+            <td><func>spin()</func></td><td>Spin the agent in place for 15 ticks.</td>
+          </tr>
+        </table>
+      </user>
     </li>
     <li>For N states there are N<sup>2</sup> possible transition rules (allowing for states to transition to themselves).
       How many of those transitions were actually allowed by your fsm2 code?<br>
-      <user>your answer here</user>
+      <user>
+        <p>Three states were used in the <func>fsm2()</func> finite-state machine, resulting in 9 possible transition rules.<br>
+          In the implementation of <func>fsm2()</func>, 4 transition rules were explicitly stated. 3 rules that does not change the states were implicitly implemented in the switch block. In total, 7 rules were implemented.
+        </p>
+        <center><img src="states.png"></center>
+      </user>
     </li>
     <li>What part of the controller design and implementation did you find most challenging in this week's assignment?<br>
-      <user>your answer here</user>
+      <user>
+        <p>The area restricted search is diffcult to implement in a Braitenberg model. The movement parameters have to be finely tuned to maximize the effceiency. Maybe genetic algorithm?
+        </p>
+      </user>
     </li>
   </ol>
 
