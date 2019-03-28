@@ -48,13 +48,43 @@ function add_connections_for_predator_escape() {
 
   // YOUR CODE GOES HERE
 
-  // sensors to response layer
+  function sigmoid(x) {
+    return 1/(1 + exp(-x));
+  }
 
+  function binary(x, threshold) {
+    return x > threshold ? 1 : 0;
+  }
+  // sensors to response layer
+  // Use gradient weight, higher weight at center, linearly.
+  for (let i = 1; i <= 8; i++) {
+    axons.push(new Axon("SL" + i, "RL" + i, 2.0/8*i));
+    axons.push(new Axon("SR" + i, "RR" + i, 2.0/8*i));
+  }
 
   // response to auxillary layer
-
+  // Use gradient weight, higher weight at center, linearly.
+  for (let i = 1; i < 9; i++) {
+    for (let j = i; j < 9; j++) {
+      axons.push(new Axon("RL"+i, "AL"+j, 2/8/8*j*j));
+      axons.push(new Axon("RR"+i, "AR"+j, 2/8/8*j*j));
+    }
+  }
 
   // auxillary layer to motors
+  // Use gradient weight, higher weight at center, linearly.
+  for (let i = 1; i < 9; i++) {
+    axons.push(new Axon("AL"+i, "ML", 0.012/8 *i*i));
+    axons.push(new Axon("AR"+i, "MR", 0.012/8 *i*i));
+  }
+
+  // lateral inhibition
+  for (let i = 1; i < 8; i++) {
+    axons.push(new Axon("RL"+i, "RL"+(i+1), -1));
+    axons.push(new Axon("RL"+(i+1), "RL"+i, -1));
+    axons.push(new Axon("RR"+i, "RR"+(i+1), -1));
+    axons.push(new Axon("RR"+(i+1), "RR"+i, -1));
+  }
 
 }
 
