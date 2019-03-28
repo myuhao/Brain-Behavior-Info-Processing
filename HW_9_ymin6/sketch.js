@@ -23,15 +23,15 @@ function add_connections_for_prey_approach() {
   // response to auxillary layer
   for (let i = 1; i < 9; i++) {
     for (let j = i; j < 9; j++) {
-      axons.push(new Axon("RL"+i, "AL"+j, 2));
-      axons.push(new Axon("RR"+i, "AR"+j, 2));
+      axons.push(new Axon("RL"+i, "AL"+j, 11));
+      axons.push(new Axon("RR"+i, "AR"+j, 11));
     }
   }
 
   // auxillary layer to motors
   for (let i = 1; i < 9; i++) {
-    axons.push(new Axon("AL"+i, "MR", 0.025));
-    axons.push(new Axon("AR"+i, "ML", 0.025));
+    axons.push(new Axon("AL"+i, "MR", 0.005));
+    axons.push(new Axon("AR"+i, "ML", 0.005));
   }
 }
 
@@ -57,16 +57,16 @@ function add_connections_for_predator_escape() {
   // Use gradient weight, higher weight at center, linearly.
   for (let i = 1; i < 9; i++) {
     for (let j = i; j < 9; j++) {
-      axons.push(new Axon("RL"+i, "AL"+j, 2));
-      axons.push(new Axon("RR"+i, "AR"+j, 2));
+      axons.push(new Axon("RL"+i, "AL"+j, 11));
+      axons.push(new Axon("RR"+i, "AR"+j, 11));
     }
   }
 
   // auxillary layer to motors
   // Use gradient weight, higher weight at center, linearly.
   for (let i = 1; i < 9; i++) {
-    axons.push(new Axon("AL"+i, "ML", 0.03));
-    axons.push(new Axon("AR"+i, "MR", 0.03));
+    axons.push(new Axon("AL"+i, "ML", 0.005));
+    axons.push(new Axon("AR"+i, "MR", 0.005));
   }
 }
 
