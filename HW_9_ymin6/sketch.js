@@ -30,18 +30,9 @@ function add_connections_for_prey_approach() {
 
   // auxillary layer to motors
   for (let i = 1; i < 9; i++) {
-    axons.push(new Axon("AL"+i, "MR", 0.04));
-    axons.push(new Axon("AR"+i, "ML", 0.04));
+    axons.push(new Axon("AL"+i, "MR", 0.025));
+    axons.push(new Axon("AR"+i, "ML", 0.025));
   }
-
-  // lateral inhibition
-  for (let i = 1; i < 8; i++) {
-    axons.push(new Axon("RL"+i, "RL"+(i+1), -1));
-    axons.push(new Axon("RL"+(i+1), "RL"+i, -1));
-    axons.push(new Axon("RR"+i, "RR"+(i+1), -1));
-    axons.push(new Axon("RR"+(i+1), "RR"+i, -1));
-  }
-
 }
 
 function add_connections_for_predator_escape() {
@@ -77,15 +68,6 @@ function add_connections_for_predator_escape() {
     axons.push(new Axon("AL"+i, "ML", 0.03));
     axons.push(new Axon("AR"+i, "MR", 0.03));
   }
-
-  // lateral inhibition
-  for (let i = 1; i < 8; i++) {
-    axons.push(new Axon("RL"+i, "RL"+(i+1), -1));
-    axons.push(new Axon("RL"+(i+1), "RL"+i, -1));
-    axons.push(new Axon("RR"+i, "RR"+(i+1), -1));
-    axons.push(new Axon("RR"+(i+1), "RR"+i, -1));
-  }
-
 }
 
 
