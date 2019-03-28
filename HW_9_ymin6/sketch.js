@@ -58,24 +58,24 @@ function add_connections_for_predator_escape() {
   // sensors to response layer
   // Use gradient weight, higher weight at center, linearly.
   for (let i = 1; i <= 8; i++) {
-    axons.push(new Axon("SL" + i, "RL" + i, 2.0/8*i));
-    axons.push(new Axon("SR" + i, "RR" + i, 2.0/8*i));
+    axons.push(new Axon("SL" + i, "RL" + (9-i), 2.0));
+    axons.push(new Axon("SR" + i, "RR" + (9-i), 2.0));
   }
 
   // response to auxillary layer
   // Use gradient weight, higher weight at center, linearly.
   for (let i = 1; i < 9; i++) {
     for (let j = i; j < 9; j++) {
-      axons.push(new Axon("RL"+i, "AL"+j, 2/8/8*j*j));
-      axons.push(new Axon("RR"+i, "AR"+j, 2/8/8*j*j));
+      axons.push(new Axon("RL"+i, "AL"+j, 2));
+      axons.push(new Axon("RR"+i, "AR"+j, 2));
     }
   }
 
   // auxillary layer to motors
   // Use gradient weight, higher weight at center, linearly.
   for (let i = 1; i < 9; i++) {
-    axons.push(new Axon("AL"+i, "ML", 0.012/8 *i*i));
-    axons.push(new Axon("AR"+i, "MR", 0.012/8 *i*i));
+    axons.push(new Axon("AL"+i, "ML", 0.03));
+    axons.push(new Axon("AR"+i, "MR", 0.03));
   }
 
   // lateral inhibition
