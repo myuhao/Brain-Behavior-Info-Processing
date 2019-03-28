@@ -1,6 +1,6 @@
 // Week 9 Homework, Lamprey place-code to rate-code conversion
-// 
-// Neural circuits for place-code to rate-code conversion 
+//
+// Neural circuits for place-code to rate-code conversion
 // from Fig. 3 of the paper by Kamali-Sarvestani et al. (2012).
 
 var showLabels = true;
@@ -21,9 +21,26 @@ function add_connections_for_prey_approach() {
   }
 
   // response to auxillary layer
-
+  for (let i = 1; i < 9; i++) {
+    for (let j = i; j < 9; j++) {
+      axons.push(new Axon("RL"+i, "AL"+j, 2));
+      axons.push(new Axon("RR"+i, "AR"+j, 2));
+    }
+  }
 
   // auxillary layer to motors
+  for (let i = 1; i < 9; i++) {
+    axons.push(new Axon("AL"+i, "MR", 0.04));
+    axons.push(new Axon("AR"+i, "ML", 0.04));
+  }
+
+  // lateral inhibition
+  for (let i = 1; i < 8; i++) {
+    axons.push(new Axon("RL"+i, "RL"+(i+1), -1));
+    axons.push(new Axon("RL"+(i+1), "RL"+i, -1));
+    axons.push(new Axon("RR"+i, "RR"+(i+1), -1));
+    axons.push(new Axon("RR"+(i+1), "RR"+i, -1));
+  }
 
 }
 
@@ -107,7 +124,7 @@ function clearConnections() {
 }
 
 //--------------
-// MAIN LOOP 
+// MAIN LOOP
 //--------------
 
 function draw() {
