@@ -12,16 +12,35 @@ class Bot {
     // this gets called on every tick
     // update the estimatedValue array when the bot consumes a pellet
     // use the delta rule; pick a good learning rate
-    
+
+    if (this.sns.deltaEnergy == 0) {
+      return;
+    }
+
+    let eta = 0.1;
+    switch (this.sns.lastColorConsumed) {
+      case "red":
+        this.estimatedValue[0] += eta * (this.sns.deltaEnergy - this.estimatedValue[0]);
+        break;
+      case "green":
+        this.estimatedValue[1] += eta * (this.sns.deltaEnergy - this.estimatedValue[1]);
+        break;
+      case "blue":
+        this.estimatedValue[2] += eta * (this.sns.deltaEnergy - this.estimatedValue[2]);
+        break;
+      default:
+        break;
+    }
   }
 
   seekUser() {
     // your controller code goes here
     // use the estimatedValue array to decide which pellets to consume
     // you can call other predefined controller functions, if desired
-    
-    // the following code is pretty useless, but it 
+
+    // the following code is pretty useless, but it
     // provides some coding hints
+    let beta = 0.1
     let rn = random(3);
     if (rn < 1) this.seekRed();
     else if (rn < 2) this.seekGreen();
@@ -157,7 +176,7 @@ class Bot {
     this.sns = {
       left: [0, 0, 0], // activation level for left sensor [R, G, B]
       right: [0, 0, 0], // activation level for right sensor [R, G, B]
-      collision: false, // true = hit wall/obstacle, 
+      collision: false, // true = hit wall/obstacle,
       deltaEnergy: 0, // energy gained on last time step
       lastColorConsumed: "black", // color of the last pellet that was consumed ("red", "green", "blue")
     };
