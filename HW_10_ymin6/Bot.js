@@ -17,21 +17,36 @@ class Bot {
       return;
     }
 
-    let eta = 0.1;
+    let epsilon = 0.1;
     switch (this.sns.lastColorConsumed) {
       case "red":
-        this.estimatedValue[0] += eta * (this.sns.deltaEnergy - this.estimatedValue[0]);
+        this.estimatedValue[0] += epsilon * (this.sns.deltaEnergy - this.estimatedValue[0]);
         break;
+
       case "green":
-        this.estimatedValue[1] += eta * (this.sns.deltaEnergy - this.estimatedValue[1]);
+        this.estimatedValue[1] += epsilon * (this.sns.deltaEnergy - this.estimatedValue[1]);
         break;
+
       case "blue":
-        this.estimatedValue[2] += eta * (this.sns.deltaEnergy - this.estimatedValue[2]);
+        this.estimatedValue[2] += epsilon * (this.sns.deltaEnergy - this.estimatedValue[2]);
         break;
+
       default:
+        console.log("Last color is " + this.sns.lastColorConsumed);
         break;
     }
   }
+
+  /**
+   * Retrieve the array key corresponding to the largest element in the array.
+   * See <https://gist.github.com/engelen/fbce4476c9e68c52ff7e5c2da5c24a28>.
+   *
+   * @param {Array.<number>} array Input array
+   * @return {number} Index of array element with largest value
+   */
+  argMax(array) {
+    return array.map((x, i) => [x, i]).reduce((r, a) => (a[0] > r[0] ? a : r))[1];
+  } 
 
   seekUser() {
     // your controller code goes here
@@ -40,11 +55,29 @@ class Bot {
 
     // the following code is pretty useless, but it
     // provides some coding hints
-    let beta = 0.1
-    let rn = random(3);
-    if (rn < 1) this.seekRed();
-    else if (rn < 2) this.seekGreen();
-    else this.seekBlue();
+    // let rn = random(3);
+    // if (rn < 1) this.seekRed();
+    // else if (rn < 2) this.seekGreen();
+    // else this.seekBlue();
+
+    /** Simple action selection: choose best expected value.*/
+    switch (this.argMax(this.estimatedValue)) {
+      case 0:
+        this.seekRed();
+        break;
+
+      case 1:
+        this.seekGreen();
+        break;
+
+      case 2:
+        this.seekBlue();
+        break;
+
+      default:
+        console.log("Max idx is " + this.estimatedValue);
+        break
+    }
   }
 
 
