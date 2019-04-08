@@ -44,9 +44,9 @@ class Bot {
    * @param {Array.<number>} array Input array
    * @return {number} Index of array element with largest value
    */
-  argMax(array) {
+  argmax(array) {
     return array.map((x, i) => [x, i]).reduce((r, a) => (a[0] > r[0] ? a : r))[1];
-  } 
+  }
 
   seekUser() {
     // your controller code goes here
@@ -61,7 +61,11 @@ class Bot {
     // else this.seekBlue();
 
     /** Simple action selection: choose best expected value.*/
-    switch (this.argMax(this.estimatedValue)) {
+    this.chooseCtrler(this.argmax(this.estimatedValue));
+  }
+
+  chooseCtrler(idx) {
+    switch (idx) {
       case 0:
         this.seekRed();
         break;
@@ -75,11 +79,10 @@ class Bot {
         break;
 
       default:
-        console.log("Max idx is " + this.estimatedValue);
-        break
+        console.log("Invalid index " + idx);
+        break;
     }
   }
-
 
   //=========================================
   // DO NOT CHANGE THE FOLLOWING CONTROLLERS
