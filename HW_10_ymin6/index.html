@@ -100,13 +100,13 @@ The objective is to collect as much energy as possible in a fixed time period.
       </table>
     </li>
     <li>What learning rate did you use for your delta rule? How did you select this value?<br>
-      <user>The learning rate is 0.1. The value is choosen randomly and it worked. </user>
+      <user>The learning rate is 0.1. The value is choosen randomly and it worked. This makes sense because when the agent is traveling in the world, it may encounter other food pelletes by chance (seekColor() methods does not avoid other color pelletes). Using a low learning rate retains the current trend, and still allow some change before the expected values converge. </user>
     </li>
     <li>Briefly describe the controller strategy that you implemented. How did you use the estimated reward values to control the bot behavior?<br>
-      <user>The bot will simplely choose the color with the highest estimated value.</user>
+      <user>The bot will simplely choose the color with the highest estimated value at that time step.</user>
     </li>
     <li>How well does your controller perform relative to the best single-color controller (e.g. seekCOLOR)? What do you think accounts for the difference in performance, if any?<br>
-      <user>The custom controller performed similarly to a single-color controller as it is seeking the best possible value at all time step. The custom controller would out-perform a single-color controller when the value of the food changes over time.</user>
+      <user>The custom controller performed similarly to a single-color controller as it is seeking the best possible value at all time step. One of the seekCOLOR controller will give the best possible socre as one color will always give the highest score. The custom controller would out-perform a single-color controller when the value of the food changes over time.</user>
     </li>
   </ol>
 
