@@ -7,7 +7,7 @@ var learner;
 
 const NSTEPS = 2000;
 
-const controllerNames = ['randAction', 'handCoded', 'Qlearner', 'handCoded9'];
+const controllerNames = ['randAction', 'handCoded', 'Qlearner'];
 const obj = {wall:1, good:2, bad:3}; 
 
 const FWD = 0;
