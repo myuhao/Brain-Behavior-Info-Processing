@@ -16,14 +16,55 @@ class Bot {
     var snsLEFT = this.sensors[LEFT].val;
     var snsRIGHT = this.sensors[RIGHT].val;
 
+    let forwardProb = 0.88;
     if (snsFWD == obj.good) {
       this.action = FWD;
     } else if (snsLEFT == obj.good) {
       this.action = LEFT;
     } else if (snsRIGHT == obj.good) {
       this.action = RIGHT;
+    } else if (snsFWD == obj.bad || snsFWD == obj.wall) {
+      this.action = random([LEFT, RIGHT]);
+    } else if (snsFWD == obj.wall && snsRIGHT == obj.wall) {
+      this.action = LEFT;
+    } else if (snsFWD == obj.wall && snsLEFT == obj.wall) {
+      this.action == RIGHT;
+    } else if (snsLEFT == obj.bad || snsLEFT == obj.wall) {
+      this.action = Math.random() > forwardProb ? RIGHT : FWD;
+    } else if (snsRIGHT == obj.bad || snsRIGHT == obj.wall) {
+      this.action = Math.random() > forwardProb ? LEFT : FWD;
     } else {
-      this.action = random([FWD, LEFT, RIGHT]);
+      this.action = FWD;
+    }
+  }
+
+    handCoded9() {
+
+    // sample code - you need to modify this routine
+
+    var snsFWD = this.sensors[FWD].val;
+    var snsLEFT = this.sensors[LEFT].val;
+    var snsRIGHT = this.sensors[RIGHT].val;
+
+    let forwardProb = 0.9;
+    if (snsFWD == obj.good) {
+      this.action = FWD;
+    } else if (snsLEFT == obj.good) {
+      this.action = LEFT;
+    } else if (snsRIGHT == obj.good) {
+      this.action = RIGHT;
+    } else if (snsFWD == obj.bad || snsFWD == obj.wall) {
+      this.action = random([LEFT, RIGHT]);
+    } else if (snsFWD == obj.wall && snsRIGHT == obj.wall) {
+      this.action = LEFT;
+    } else if (snsFWD == obj.wall && snsLEFT == obj.wall) {
+      this.action == RIGHT;
+    } else if (snsLEFT == obj.bad || snsLEFT == obj.wall) {
+      this.action = Math.random() > forwardProb ? RIGHT : FWD;
+    } else if (snsRIGHT == obj.bad || snsRIGHT == obj.wall) {
+      this.action = Math.random() > forwardProb ? LEFT : FWD;
+    } else {
+      this.action = FWD;
     }
   }
   //===================================

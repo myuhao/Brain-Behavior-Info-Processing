@@ -1,20 +1,38 @@
 class Qlearner {
 
+  /**
+   * Retrieve the array key corresponding to the largest element in the array.
+   * See <https://gist.github.com/engelen/fbce4476c9e68c52ff7e5c2da5c24a28>.
+   *
+   * @param {Array.<number>} array Input array
+   * @return {number} Index of array element with largest value
+   */
+  argmax(array) {
+    return array.map((x, i) => [x, i]).reduce((r, a) => (a[0] > r[0] ? a : r))[1];
+  }
+
   bestAction(state) {
     // return the best action for this state
     let bestAction = 0;
+    bestAction = this.argmax(this.Q[state]);
     return bestAction;
   }
 
   maxQ(state) {
     // return the maximum Q value for this state
     let maxQ = this.Q[state][0];
+    let bestAction = this.argmax(this.Q[state]);
+    maxQ = this.Q[state][bestAction];
     return maxQ;
   }
 
   updateQ(state, action, reward, nextState) {
     // implement the Q-learning update rule
     // state, action, reward, and nextState are passed in as arguments
+    let nextVal = Math.max(...this.Q[nextState]);
+    let sarsaVal = this.Q[nextState][this.bestAction(nextState)];
+    let thisVal = Math.max(...this.Q[state]);
+    this.Q[state][action] += this.alpha * (reward + this.gamma * nextVal - thisVal);
   }
   
   //===================================
