@@ -45,7 +45,7 @@ class Bot {
 
   constructor() {
     // sensor offsets [dx, dy] indexed by bot heading (0-3) and sensor number (0-2)
-    //    FWD     LEFT    RIGHT 
+    //    FWD     LEFT    RIGHT
     this.sensorOffsets = [
       [ [1, 0],  [0, -1], [0, 1]  ], // bot facing east
       [ [0, 1],  [1, 0],  [-1, 0] ], // bot facing south
@@ -57,7 +57,7 @@ class Bot {
   }
 
   consume() {
-    
+
     this.reward = -0.01; // baseline cost of moving
 
     let objHere = grid.get(this.ix, this.iy); // object directly under the bot
@@ -166,9 +166,9 @@ class Bot {
     this.sensors = [{},{},{}];
     this.updateSensors();
     this.state = this.getSensorState(); // for reinforcement learning
-    this.nextState = this.state; 
+    this.nextState = this.state;
     this.action = undefined;
-    this.nextAction = undefined;  
+    this.nextAction = undefined;
   }
 
   setController(name) {

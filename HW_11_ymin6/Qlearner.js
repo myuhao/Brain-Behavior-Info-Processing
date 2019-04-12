@@ -17,7 +17,7 @@ class Qlearner {
 
   maxQ(state) {
     // return the maximum Q value for this state
-    return this.Q[state][this.bestAction(state)];
+    return Math.max(...this.Q[state]);
   }
 
   updateQ(state, action, reward, nextState) {
@@ -27,7 +27,7 @@ class Qlearner {
     let thisVal = Math.max(...this.Q[state]);
     this.Q[state][action] += this.alpha * (reward + this.gamma * nextVal - thisVal);
   }
-  
+
   //===================================
   // NOTHING BELOW HERE SHOULD CHANGE
   //===================================
@@ -60,7 +60,7 @@ class Qlearner {
   }
 
   actionEpsGreedy(state) {
-    // epsilon-greedy policy 
+    // epsilon-greedy policy
     if (random() < this.epsilon) {
       // pick a random action
       return randint(0, this.nactions - 1);
