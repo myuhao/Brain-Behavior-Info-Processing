@@ -25,7 +25,7 @@
   </p>
   <p style="font-size: 80%">
     <b>Pellets:</b> 15 green (good, reward = +1), 15 blue (bad, reward = -1)
-    <br><b>Walls:</b> shown in gray; inpenetrable 
+    <br><b>Walls:</b> shown in gray; inpenetrable
     <br><b>Sensors:</b> the bot has 3 sensors (0 = front, 1 = left, 2 = right) indicating what is at that grid location
     <br><b>Sensor values:</b> 0 = nothing, 1 = wall, 2 = good pellet, 3 = bad pellet
     <br><b>Actions:</b> the bot has 3 actions; 0 = move forward, 1 = rotate left 90°, 2 = rotate right 90°
@@ -36,14 +36,14 @@
     <br>&nbsp;
   </p>
   <div id="canvas"></div>
-  
+
   <select id="controller"></select>
   <button id="b_reset" style="background-color: lightBlue">Reset</button>
   <button id="b_single" style="background-color: lightCyan">Single Step</button>
   <button id="b_run" style="background-color: lightGreen">Run/Pause</button>
   <br>
   <h3>Experiment</h3>
-  <p>The button below runs 100 trials of each controller and 
+  <p>The button below runs 100 trials of each controller and
     displays results. Display Q will show selected Q values.
     Reset Q will reinitialize the Q array (restart learning).</p>
   <button id="b_expt">Run Experiment</button>
@@ -54,22 +54,22 @@
   <br>
 
   <h3>Instructions</h3>
-  <p> First, select <b>randAction</b> and click the "run/pause" button. 
-    After 2000 ticks, the energy collected by the bot should be around -20. 
-    This is because there is a energy cost of -0.01 on each time step, 
-    which corresponds to a cost of -20 over 2000 time steps; 
-    for random actions the bot is equally likely to run into green 
+  <p> First, select <b>randAction</b> and click the "run/pause" button.
+    After 2000 ticks, the energy collected by the bot should be around -20.
+    This is because there is a energy cost of -0.01 on each time step,
+    which corresponds to a cost of -20 over 2000 time steps;
+    for random actions the bot is equally likely to run into green
     and blue pellets so the pellet rewards cancel out.
   </p>
-  <p>Now, modify the <b>handCoded()</b> controller in Bot.js. 
-  This controller will not use any reinforcement learning; 
+  <p>Now, modify the <b>handCoded()</b> controller in Bot.js.
+  This controller will not use any reinforcement learning;
   instead your should code it as a set of "condition-action" statements
-  that specify what action the bot should take for different sensor states 
-    (e.g., green pellet ahead, more forward; 
-    green pellet to the left, rotate left; etc.). 
-  You'll probably want to introduce some randomness into certain choices.  
-  As you develop your code, test the performance using the "Run Experiment" 
-    button; you should aim for a performance of at least 50. 
+  that specify what action the bot should take for different sensor states
+    (e.g., green pellet ahead, more forward;
+    green pellet to the left, rotate left; etc.).
+  You'll probably want to introduce some randomness into certain choices.
+  As you develop your code, test the performance using the "Run Experiment"
+    button; you should aim for a performance of at least 50.
     The best handcoded controllers in last year's class scored around 100.
   </p>
   <p>Before you can use Q learning, you have to implement 3 methods in Qlearner.js:
@@ -77,7 +77,7 @@
     maxQ(state) - return the maximum Q value for a given state
     updateQ(state, action, reward, nextState) - implement Q learning as presented in lecture
   </pre>
-  After you've correctly implemented these functions, click "Reset Q" then click 
+  After you've correctly implemented these functions, click "Reset Q" then click
   "Run Experiment" <b>twice</b>.
   Look at the results in the table... you should see a Qlearner value greater than 55.
   If not, you need to debug your Qlearner code.
@@ -89,32 +89,40 @@
     answer the following questions. Recall that
     <br><code>state = 16*sensors[2].val + 4*sensors[1].val + 1*sensors[0].val</code>
   </p><ol><li>Examine Q[0].  This corresponds to all sensors detecting "nothing."  What is the maximum Q value?
-    Why is this value greater than 0? 
-    <br><user>Your answer here</user>
+    Why is this value greater than 0?
+    <br><user>The max Q value is 0.139 with action index 0 (Moving forward). This is maximum and greater than 0 because it is the only possible action that will produce a positive expectation value in the future. The other two actions (turning right or left) will not yield any positive expectation value.</user>
   </li>
     <li>Examine Q[2].  This corresponds to the front sensor detecting a green pellet.  What is the maximum Q value?
       Why is this value greater than 1? What is the BEST action in this state?
-    <br><user>Your answer here</user>
+    <br><user>The maxiumu Q value is 1.148 with action index of 0. The value is larger than 1.0 because taking this action will result in eating the food, and +1 energy. So the expected value is greater than 1.0. The action is moving forward.</user>
   </li>
     <li>Examine Q[3].  What sensor configuration does this correspond to?  What is the WORST action in this state?
-    <br><user>Your answer here</user>
+    <br><pre>
+      function index2sns(idx) {
+        let sns0 = idx % 4;
+        let sns1 = ((idx - sns0) / 4) % 4;
+        let sns2 = ((idx - sns0 - 4*sns1) / 16) % 4;
+        return [sns0, sns1, sns2];
+      }
+    </pre>
+    <user>Using the conversion, index 3 is [3, 0, 0]. This is bad pellet to the front and nothing at the right or left. The best action is to NOT move forward ad right and left have similar Q value.</user>
   </li>
     <li>Examine Q[8].  What sensor configuration does this correspond to?  What action is optimal in this state?
-      What is the maximum Q value? 
-      Why is this maxQ value smaller than the maxQ value for Q[2]? 
-    <br><user>Your answer here</user>
+      What is the maximum Q value?
+      Why is this maxQ value smaller than the maxQ value for Q[2]?
+    <br><user>The state is [0, 2, 0]. This is the state that there is a good pellet in the left and nothing at the right or front. The optimal action is left with Q value of 0.906. This is smaller because to get the pellet, the agent has to turn first before collecting the reward. The discount factor and step cost make it less favorable than just going forward.</user>
   </li>
     <li>Examine Q[20].  What sensor configuration does this correspond to?  Has this state ever been visited by the bot?
       Why or why not?
-    <br><user>Your answer here</user>
+    <br><user>State [0, 1, 1] -> Nothing in the front and wall at the right and left. All the Q values are still 0.0, indicating that the state has never been visited. This makes sense because there is no "tunnel" in the environment.</user>
   </li>
     <li>Examine Q[32].  What sensor configuration does this correspond to?  What action is optimal in this state?
-    <br><user>Your answer here</user>
+    <br><user>State [0, 0, 2] -> Good pellet to the right and nothing in the front or left. The optimal action is make a right turn.</user>
   </li>
- 
-  <li>How did your "Qlearner" performance compare to your "handCoded" performance?  
+
+  <li>How did your "Qlearner" performance compare to your "handCoded" performance?
     If they are similar, why?  If they are different, why?
-    <br><user>Your answer here</user>
+    <br><user>The handCoded() controller performed much better. This is because of the epsilonGreedy algorithm used when the good pellet is at the front. There is a 10% chance that the agent will not take the food. Similarly, there is also the chance that the agent will take the bad food even when the Q value is small.</user>
   </li>
   </ol>
 
