@@ -1,0 +1,95 @@
+<!DOCTYPE html><html><head>
+    <title>HW 12 template</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.dom.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8">
+    <script src="cnnutil.js"></script>
+    <script src="convnet.js"></script>
+    <script src="deepqlearn.js"></script>
+    <script src="sketch.js"></script>
+  </head>
+  <body>
+  <h2>Week 12 Neural Q-Learning</h2>
+  
+  <h3>Introduction</h3>
+  <p>This week we combine reinforcement learning with neural networks.  The important changes relative to last week are that
+    <br>(a) the state space is now continuous, rather than discrete and
+    <br>(b) Q values are estimated using a neural network, rather than a table.
+  </p>
+  <p>
+  For this exercise, we will use a simple video game scenario, where the goal is
+  to move a paddle left and right catch green pellets and avoid red pellets.
+  We follow the general approach given in this week's reading assingment:
+  <a href="http://www.life.illinois.edu/mcb/419/pdf/Mnih15_529-533.pdf">
+    Mnih V, et al. (2015) Human Level Control Through Deep Reinforcement Learning. Nature 518, 539-533</a>.
+   We will use the neural net library and reinforcement learning module documented here:
+   <a href="http://cs.stanford.edu/people/karpathy/convnetjs/demo/rldemo.html">ConvNetJS: Deep Q Learning Demo</a>
+  </p>
+  <p style="font-size: 80%">
+    <b>Pellets:</b> red value = -1; green value = +1
+    <br><b>Left/Right Sensors:</b> at each end of the paddle; provide information about distance to red and green pellets
+    <br><b>Sensor values:</b> computed as (30/dist); e.g., an object 30 pixels away has a value of 1
+    <br><b>Actions:</b> the bot has 3 actions; 0 = move left, 1 = move right; 2 = stop
+    <br><b>Network input:</b> the four sensor values [leftRed, leftGreen, rightRed, rightGreen]
+    <br><b>Network output:</b> estimated Q values for the 3 possible actions
+    <br><b>Network internal layers:</b> you decide    
+    <br>&nbsp;
+  </p>
+  <div id="canvas"></div>
+<div id="status" style="color: blue; margin-bottom: 20px"></div>
+  <div id="gui"></div>
+  <h3>Instructions</h3>
+  <p> First, select "randAction" and click the "run series" button.  Look in the results table and you should see a value around 8-9. 
+  </p>
+  <p>Before you can use reinforcement learning, you have to design your neural network by editing the code in the function
+  <b>resetBrain</b> found in <b>sketch.js</b>.
+  In particular, you'll need to specify one or more hidden layers, the number of neurons per layer, the type of activation function
+  in each layer ('relu', 'sigmoid', or 'tanh'). You may also want to change the associated parameters (epsilon, gamma, learning rate, batch_size, l2_decay, etc.) 
+  Note that <b>batch_size</b> has a big effect on the update rate... if you set it too large your simulation will run very slowly.
+   You'll probably want to repeat the training series multiple times until the 
+  performance is no longer improving.
+  Then you should select "testing" and then click "run series" to measure the final performance.
+  </p>
+  <p style="color:green"><b>NOTES:</b>
+    <br>Your target performance should be above 20.
+    <br>Save your best network directly into your HTML file by first clicking the "Save Network" button below, then copy-and-paste the network description from the textbox into the corresponding textarea section near the bottom of your HTML file.</p>
+
+ <h3>Questions:</h3>
+ <b>(provide answers in the body of your email, or in the HTML file, whichever you prefer)</b>
+ <ol>
+  <li>Did you remember to save your best network into your HTML file before submission?
+    <br><user>your answer here</user>
+   </li>
+  <li>What was the average fitness that you achieved for your best network?
+    <br><user>your answer here</user>
+  </li>
+  <li>How many training trials did it take to achieve this performance?
+    <br><user>your answer here</user>
+  </li>
+  <li>Briefly describe the network architecture that you found to be most effective(e.g., #layers, #neurons, activation functions).
+    <br><user>your answer here</user>
+  </li>
+   <li>Describe any changes that you made to the other learning parameters (the "opt" values).
+     <br><user>your answer here</user>
+  </li>
+  </ol>
+
+  <h3>Results Table</h3>
+  <table>
+    <tbody><tr><th>Controller</th><th>Fitness<br><small>mean (std dev)</small></th></tr>
+    </tbody><tbody id="table">
+    </tbody>
+  </table>
+  <h3>Load / Save network</h3>
+  <p>These buttons will load/save the network architecture temporarily using the text box below.
+  To save this information permanently, you would need to copy and paste the textbox contents
+  into the appropriate section of the index.html file. 
+  </p>
+  <div id="gui2"></div>
+  <br>
+  <textarea id="tt" style="width:100%; height:200px;">{"layers":[{"out_depth":4,"out_sx":1,"out_sy":1,"layer_type":"input"},{"out_depth":3,"out_sx":1,"out_sy":1,"layer_type":"fc","num_inputs":4,"l1_decay_mul":0,"l2_decay_mul":1,"filters":[{"sx":1,"sy":1,"depth":4,"w":{"0":2.32135679635493e+46,"1":-4.551084652860554e+46,"2":2.211450003321001e+46,"3":4.634016077378426e+46}},{"sx":1,"sy":1,"depth":4,"w":{"0":2.9529899957284687e+46,"1":3.715645027665133e+46,"2":8.521441354896606e+45,"3":4.410500924763947e+46}},{"sx":1,"sy":1,"depth":4,"w":{"0":2.0223146257285862e+46,"1":9.094599400101348e+46,"2":1.2102303886705946e+46,"3":6.447455334418952e+46}}],"biases":{"sx":1,"sy":1,"depth":3,"w":{"0":2.67103500520719e+47,"1":2.4867787055455226e+47,"2":2.1873159487948797e+47}}},{"out_depth":3,"out_sx":1,"out_sy":1,"layer_type":"regression","num_inputs":3}]}
+  </textarea>
+  
+
+</body></html>
