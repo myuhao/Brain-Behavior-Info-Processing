@@ -8,7 +8,7 @@ var brain;
 
 var simModes = ['training', 'testing', 'randAction'];
 var modeSelector; // GUI element for selecting a controller
- 
+
 var faster = 1;
 var paused = true;
 var expt = null;
@@ -45,11 +45,15 @@ function resetBrain() {
 	var temporal_window = 0; // amount of temporal memory. 0 = agent lives in-the-moment :)
 	var network_size = temporal_window * (num_inputs + num_actions) + num_inputs;
 
-  // Specify Neural Network Architecture
+    // Specify Neural Network Architecture
 	var layer_defs = [];
 	layer_defs.push({type:'input', out_sx:1, out_sy:1, out_depth:network_size});
-  // ADD HIDDEN LAYER(S) HERE
-  // ...
+    // ADD HIDDEN LAYER(S) HERE
+    // ...
+    layer_defs.push({type: 'fc', num_neurons: network_size * 10, activation: "tanh"});
+    // layer_defs.push({type: 'fc', num_neurons: network_size, activation: "tanh"});
+    // layer_defs.push({type: 'fc', num_neurons: network_size, activation: "tanh"});
+    // layer_defs.push({type: 'fc', num_neurons: network_size, activation: "tanh"});
 	layer_defs.push({type:'regression', num_neurons: num_actions});
 
 	// options for the learning algorithm (feel free to edit these)
@@ -57,7 +61,7 @@ function resetBrain() {
 	opt.temporal_window = temporal_window;
 	opt.experience_size = 10000;
 	opt.start_learn_threshold = 2000;
-	opt.gamma = 0.98;
+	opt.gamma = 0.70;
 	opt.learning_steps_total = 60000;
 	opt.learning_steps_burnin = 10000;
 	opt.epsilon_min = 0.05;
@@ -180,8 +184,9 @@ function createGUI() {
 	exptBtn.mousePressed(function() {
 		expt = new Expt(EXPT_SPEEDUP);
 		loop();
+        console.log("HEllo")
 	});
-	
+
 	//-------
 	// GUI2
 	//-------
@@ -276,7 +281,7 @@ function Expt(speedup) {
 
 function calcArrayStats(inputArray) {
 	/**
-	 ** calculates mean, standard deviation and standar error 
+	 ** calculates mean, standard deviation and standar error
 	 **
 	 ** input: inputArray, an array of numbers
 	 ** returns: {mean: <mean>, std: <standard deviation>, sem: <standard error>}
@@ -363,12 +368,12 @@ Bot.prototype.update = function() {
     this.x = width - this.halfWidth;
     this.vx = 0;
   }
-  
+
   this.consume();
   this.updateSensors();
   this.nextState = this.getSensorState();
-  if (this.controllerName == "training") { 
-    brain.backward(this.reward); 
+  if (this.controllerName == "training") {
+    brain.backward(this.reward);
   }
 };
 
@@ -388,7 +393,7 @@ Bot.prototype.getSensorState = function() {
 
 Bot.prototype.display = function() {
   push();
-  fill(this.cfill); 
+  fill(this.cfill);
   translate(this.x, this.y);
   rect(-this.halfWidth, -3, 2*this.halfWidth, 6);
   /*
@@ -405,7 +410,7 @@ Bot.prototype.setController = function(name) {
 };
 
 //-------------
-// CONTROLLERS 
+// CONTROLLERS
 //-------------
 
 Bot.prototype.randAction = function() {
@@ -452,11 +457,11 @@ Pellet.prototype.display = function() {
 };
 
 Pellet.prototype.reset = function() {
-  
+
   this.dia = 20;
   this.color = (random() < 0.3) ? 'red' : 'green';  // red = bad (-1); green = good (+1)
   this.value = (this.color == 'red') ? -1 : 1;
-  
+
   var xbuffer = (this.color == 'red') ? 100 : 30;  // provide safe zones from red pellets
   this.x = random(xbuffer, width - xbuffer);
   this.y = 50;
