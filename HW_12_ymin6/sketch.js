@@ -50,10 +50,10 @@ function resetBrain() {
 	layer_defs.push({type:'input', out_sx:1, out_sy:1, out_depth:network_size});
     // ADD HIDDEN LAYER(S) HERE
     // ...
-    layer_defs.push({type: 'fc', num_neurons: network_size * 10, activation: "tanh"});
-    // layer_defs.push({type: 'fc', num_neurons: network_size, activation: "tanh"});
-    // layer_defs.push({type: 'fc', num_neurons: network_size, activation: "tanh"});
-    // layer_defs.push({type: 'fc', num_neurons: network_size, activation: "tanh"});
+    layer_defs.push({type: 'fc', num_neurons: network_size * 4, activation: "relu"});
+    layer_defs.push({type: 'fc', num_neurons: network_size * 4, activation: "relu"});
+    // layer_defs.push({type: 'fc', num_neurons: network_size * 4, activation: "tanh"});
+    layer_defs.push({type: 'fc', num_neurons: network_size * 4, activation: "relu"});
 	layer_defs.push({type:'regression', num_neurons: num_actions});
 
 	// options for the learning algorithm (feel free to edit these)
@@ -61,10 +61,10 @@ function resetBrain() {
 	opt.temporal_window = temporal_window;
 	opt.experience_size = 10000;
 	opt.start_learn_threshold = 2000;
-	opt.gamma = 0.70;
+	opt.gamma = 0.90;
 	opt.learning_steps_total = 60000;
 	opt.learning_steps_burnin = 10000;
-	opt.epsilon_min = 0.05;
+	opt.epsilon_min = 0.15;
 	opt.epsilon_test_time = 0.0;
 	opt.layer_defs = layer_defs;
 	opt.tdtrainer_options = {learning_rate:0.01, momentum:0.0, batch_size: 10, l2_decay:0.001};
