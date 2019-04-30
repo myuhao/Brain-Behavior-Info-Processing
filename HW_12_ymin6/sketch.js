@@ -23,61 +23,61 @@ var EXPT_SPEEDUP = 500;
 //---------
 
 function reset() {
-	// reset bot
-	bot.x = width / 2;
-	bot.y = height - 10;
-	bot.setController(modeSelector.value());
-	bot.energy = 0;
+    // reset bot
+    bot.x = width / 2;
+    bot.y = height - 10;
+    bot.setController(modeSelector.value());
+    bot.energy = 0;
 
-	// reset pellets
-	pellets = [];
-	pellets.push(new Pellet());
-	pellets.push(new Pellet());
+    // reset pellets
+    pellets = [];
+    pellets.push(new Pellet());
+    pellets.push(new Pellet());
 
-	// reset sim
-	itick = 0;
-	paused = true;
+    // reset sim
+    itick = 0;
+    paused = true;
 }
 
 function resetBrain() {
-	var num_inputs = 4; //  [leftRed, leftGreen, rightRed, rightGreen]
-	var num_actions = 3; // Left/Right/Stop
-	var temporal_window = 0; // amount of temporal memory. 0 = agent lives in-the-moment :)
-	var network_size = temporal_window * (num_inputs + num_actions) + num_inputs;
+    var num_inputs = 4; //  [leftRed, leftGreen, rightRed, rightGreen]
+    var num_actions = 3; // Left/Right/Stop
+    var temporal_window = 0; // amount of temporal memory. 0 = agent lives in-the-moment :)
+    var network_size = temporal_window * (num_inputs + num_actions) + num_inputs;
 
     // Specify Neural Network Architecture
-	var layer_defs = [];
-	layer_defs.push({type:'input', out_sx:1, out_sy:1, out_depth:network_size});
+    var layer_defs = [];
+    layer_defs.push({type:'input', out_sx:1, out_sy:1, out_depth:network_size});
     // ADD HIDDEN LAYER(S) HERE
     // ...
-    layer_defs.push({type: 'fc', num_neurons: network_size * 4, activation: "relu"});
-    layer_defs.push({type: 'fc', num_neurons: network_size * 4, activation: "relu"});
-    // layer_defs.push({type: 'fc', num_neurons: network_size * 4, activation: "tanh"});
-    layer_defs.push({type: 'fc', num_neurons: network_size * 4, activation: "relu"});
-	layer_defs.push({type:'regression', num_neurons: num_actions});
+    layer_defs.push({type: 'fc', num_neurons: network_size * 10, activation: "tanh"});
+    // layer_defs.push({type: 'fc', num_neurons: network_size, activation: "tanh"});
+    // layer_defs.push({type: 'fc', num_neurons: network_size, activation: "tanh"});
+    // layer_defs.push({type: 'fc', num_neurons: network_size, activation: "tanh"});
+    layer_defs.push({type:'regression', num_neurons: num_actions});
 
-	// options for the learning algorithm (feel free to edit these)
-	var opt = {};
-	opt.temporal_window = temporal_window;
-	opt.experience_size = 10000;
-	opt.start_learn_threshold = 2000;
-	opt.gamma = 0.90;
-	opt.learning_steps_total = 60000;
-	opt.learning_steps_burnin = 10000;
-	opt.epsilon_min = 0.15;
-	opt.epsilon_test_time = 0.0;
-	opt.layer_defs = layer_defs;
-	opt.tdtrainer_options = {learning_rate:0.01, momentum:0.0, batch_size: 10, l2_decay:0.001};
+    // options for the learning algorithm (feel free to edit these)
+    var opt = {};
+    opt.temporal_window = temporal_window;
+    opt.experience_size = 10000;
+    opt.start_learn_threshold = 2000;
+    opt.gamma = 0.70;
+    opt.learning_steps_total = 60000;
+    opt.learning_steps_burnin = 10000;
+    opt.epsilon_min = 0.05;
+    opt.epsilon_test_time = 0.0;
+    opt.layer_defs = layer_defs;
+    opt.tdtrainer_options = {learning_rate:0.01, momentum:0.0, batch_size: 10, l2_decay:0.001};
 
-	brain = new deepqlearn.Brain(num_inputs, num_actions, opt);
+    brain = new deepqlearn.Brain(num_inputs, num_actions, opt);
 }
 
 function setup() {
-	createCanvas(390, 250).parent('canvas');
-	createGUI();
-	bot = new Bot();
-	resetBrain();
-	reset();
+    createCanvas(390, 250).parent('canvas');
+    createGUI();
+    bot = new Bot();
+    resetBrain();
+    reset();
 }
 
 //------------
@@ -85,37 +85,37 @@ function setup() {
 //------------
 
 function draw() {
-	background(0);
-	for (var i=0; i<pellets.length; i++) {pellets[i].display();}
-	bot.display();
-	displayInfo();
+    background(0);
+    for (var i=0; i<pellets.length; i++) {pellets[i].display();}
+    bot.display();
+    displayInfo();
 
-	if (expt) {
-		expt.update();
-		expt.display();
-		if (expt.isFinished()) {
-			bot.setController(modeSelector.value());
-			reset();
-			expt = null;
-		}
-	} else {
-		if (paused || itick >= NSTEPS) {
-			select('#status').html('paused');
-			noLoop();
-		} else {
-			var n = faster;
-			while (n--) {
-				simStep();
-				if (itick >= NSTEPS) break;
-			}
-		}
-	}
+    if (expt) {
+        expt.update();
+        expt.display();
+        if (expt.isFinished()) {
+            bot.setController(modeSelector.value());
+            reset();
+            expt = null;
+        }
+    } else {
+        if (paused || itick >= NSTEPS) {
+            select('#status').html('paused');
+            noLoop();
+        } else {
+            var n = faster;
+            while (n--) {
+                simStep();
+                if (itick >= NSTEPS) break;
+            }
+        }
+    }
 }
 
 function simStep() {
-	itick++;
-	for (var i=0; i<pellets.length; i++) {pellets[i].update();}
-	bot.update();
+    itick++;
+    for (var i=0; i<pellets.length; i++) {pellets[i].update();}
+    bot.update();
 }
 
 //---------
@@ -123,98 +123,98 @@ function simStep() {
 //---------
 
 function displayInfo() {
-	push();
-	textSize(14);
-	noStroke();
-	fill('white');
-	textAlign(LEFT);
-	text(bot.controllerName, 5, 15);
-	textAlign(CENTER);
-	text("energy = " + bot.energy, width / 2, 15);
-	textAlign(RIGHT);
-	text(itick, width - 5, 15);
-	pop();
+    push();
+    textSize(14);
+    noStroke();
+    fill('white');
+    textAlign(LEFT);
+    text(bot.controllerName, 5, 15);
+    textAlign(CENTER);
+    text("energy = " + bot.energy, width / 2, 15);
+    textAlign(RIGHT);
+    text(itick, width - 5, 15);
+    pop();
 }
 //-------
 // GUI
 //-------
 function createGUI() {
 
-	// RESET BRAIN
-	var qBtn = createButton('reset Brain').parent('#gui');
-	qBtn.mousePressed(function() {
-		resetBrain();
-	});
+    // RESET BRAIN
+    var qBtn = createButton('reset Brain').parent('#gui');
+    qBtn.mousePressed(function() {
+        resetBrain();
+    });
 
-	// CONTROLLER SELECTOR
-	modeSelector = createSelect().parent('#gui');
-	for (var i = 0; i < simModes.length; i++) {
-		modeSelector.option(simModes[i]);
-	}
-	modeSelector.changed(function() {
-		var val = this.value();
-		bot.setController(val);
-		if(val === "training") {brain.learning = true;}
-		if(val === "testing")  {brain.learning = false;}
-		reset();
-		redraw();
-	});
+    // CONTROLLER SELECTOR
+    modeSelector = createSelect().parent('#gui');
+    for (var i = 0; i < simModes.length; i++) {
+        modeSelector.option(simModes[i]);
+    }
+    modeSelector.changed(function() {
+        var val = this.value();
+        bot.setController(val);
+        if(val === "training") {brain.learning = true;}
+        if(val === "testing")  {brain.learning = false;}
+        reset();
+        redraw();
+    });
 
-	// RESET
-	var resetBtn = createButton('reset').parent('#gui');
-	resetBtn.mousePressed(function() {
-		reset();
-		redraw();
-	});
+    // RESET
+    var resetBtn = createButton('reset').parent('#gui');
+    resetBtn.mousePressed(function() {
+        reset();
+        redraw();
+    });
 
-	// SINGLE STEP
-	var stepBtn = createButton('single step').parent('#gui');
-	stepBtn.mousePressed(function() {
-		simStep();
-		redraw();
-	});
+    // SINGLE STEP
+    var stepBtn = createButton('single step').parent('#gui');
+    stepBtn.mousePressed(function() {
+        simStep();
+        redraw();
+    });
 
-	// RUN/PAUSE
-	var runBtn = createButton('run/pause').parent('#gui');
-	runBtn.mousePressed(togglePause);
+    // RUN/PAUSE
+    var runBtn = createButton('run/pause').parent('#gui');
+    runBtn.mousePressed(togglePause);
 
 
-	// RUN SERIES
-	var exptBtn = createButton('run series').parent('#gui');
-	exptBtn.mousePressed(function() {
-		expt = new Expt(EXPT_SPEEDUP);
-		loop();
+    // RUN SERIES
+    var exptBtn = createButton('run series').parent('#gui');
+    exptBtn.mousePressed(function() {
+        expt = new Expt(EXPT_SPEEDUP);
+        loop();
         console.log("HEllo")
-	});
+    });
 
-	//-------
-	// GUI2
-	//-------
+    //-------
+    // GUI2
+    //-------
 
-	// Save network
-	var saveBtn = createButton('save network').parent('#gui2');
-	saveBtn.mousePressed(function() {
-	  var j = brain.value_net.toJSON();
-	  var t = JSON.stringify(j);
-	  select('#tt').html(t);
-	});
+    // Save network
+    var saveBtn = createButton('save network').parent('#gui2');
+    saveBtn.mousePressed(function() {
+      var j = brain.value_net.toJSON();
+      var t = JSON.stringify(j);
+      select('#tt').html(t);
+    });
 
-	// Load network
-	var loadBtn = createButton('load network').parent('#gui2');
-	loadBtn.mousePressed(function() {
-	  var t = select('#tt').html();
-	  var j = JSON.parse(t);
-	  brain.value_net.fromJSON(j);
-	});
+    // Load network
+    var loadBtn = createButton('load network').parent('#gui2');
+    loadBtn.mousePressed(function() {
+      var t = select('#tt').html();
+      var j = JSON.parse(t);
+      brain.value_net.fromJSON(j);
+    });
 
 }
 
 function togglePause() {
-	paused = !paused;
-	if (!paused) {
-		select('#status').html('running');
-		loop();
-	}
+    paused = !paused;
+    if (!paused) {
+        select('#status').html('running');
+        loop();
+    }
 }
 
 //-------------
@@ -223,56 +223,56 @@ function togglePause() {
 
 function Expt(speedup) {
 
-	// run a set of trials for the currently selected controller
-	// and enter stats in the data table
+    // run a set of trials for the currently selected controller
+    // and enter stats in the data table
 
-	this.done = false;
-	this.itrial = 0;
-	this.speedup = speedup;
-	this.fitDat = [];
+    this.done = false;
+    this.itrial = 0;
+    this.speedup = speedup;
+    this.fitDat = [];
 
-	reset();
+    reset();
 
-	this.update = function() {
+    this.update = function() {
 
-		// take n simulation steps
-		var n = this.speedup;
-		while (n--) {
-			simStep();
-			if (itick >= NSTEPS) break;
-		}
+        // take n simulation steps
+        var n = this.speedup;
+        while (n--) {
+            simStep();
+            if (itick >= NSTEPS) break;
+        }
 
-		// update display
-		this.display();
+        // update display
+        this.display();
 
-		if (itick >= NSTEPS) {
-			// finished trial
-			this.fitDat.push(bot.energy);
-			reset();
-			this.itrial++;
-			if (this.itrial == NTRIALS) {
-				// finished series
-				var stats = calcArrayStats(this.fitDat);
-				var buf = select('#table').html(); // get existing table data
-				buf += "<tr>"; // add a new row
-				buf += "<td>" + bot.controllerName + "</td>";
-				buf += "<td>" + nf(stats.mean, 1, 2) + " (" + nf(stats.std, 1, 2) + ")" + "</td>";
-				buf += "</tr>";
-				select('#table').html(buf); // put it back in the table
-				this.done = true;
-				reset();
-			}
-		}
+        if (itick >= NSTEPS) {
+            // finished trial
+            this.fitDat.push(bot.energy);
+            reset();
+            this.itrial++;
+            if (this.itrial == NTRIALS) {
+                // finished series
+                var stats = calcArrayStats(this.fitDat);
+                var buf = select('#table').html(); // get existing table data
+                buf += "<tr>"; // add a new row
+                buf += "<td>" + bot.controllerName + "</td>";
+                buf += "<td>" + nf(stats.mean, 1, 2) + " (" + nf(stats.std, 1, 2) + ")" + "</td>";
+                buf += "</tr>";
+                select('#table').html(buf); // put it back in the table
+                this.done = true;
+                reset();
+            }
+        }
 
-	};
+    };
 
-	this.display = function() {
-		select('#status').html(bot.controllerName + " trial/tick: " + [this.itrial, itick]);
-	};
+    this.display = function() {
+        select('#status').html(bot.controllerName + " trial/tick: " + [this.itrial, itick]);
+    };
 
-	this.isFinished = function() {
-		return this.done;
-	};
+    this.isFinished = function() {
+        return this.done;
+    };
 }
 
 //------------
@@ -280,29 +280,29 @@ function Expt(speedup) {
 //------------
 
 function calcArrayStats(inputArray) {
-	/**
-	 ** calculates mean, standard deviation and standar error
-	 **
-	 ** input: inputArray, an array of numbers
-	 ** returns: {mean: <mean>, std: <standard deviation>, sem: <standard error>}
-	 */
-	var sum = 0;
-	var sumSq = 0;
-	var n = inputArray.length;
-	for (var i = 0; i < n; i++) {
-		sum += inputArray[i];
-		sumSq += inputArray[i] * inputArray[i];
-	}
-	var variance = (sumSq - (sum * sum) / n) / (n - 1);
-	return {
-		mean: sum / n,
-		std: Math.sqrt(variance),
-		sem: Math.sqrt(variance / n)
-	};
+    /**
+     ** calculates mean, standard deviation and standar error
+     **
+     ** input: inputArray, an array of numbers
+     ** returns: {mean: <mean>, std: <standard deviation>, sem: <standard error>}
+     */
+    var sum = 0;
+    var sumSq = 0;
+    var n = inputArray.length;
+    for (var i = 0; i < n; i++) {
+        sum += inputArray[i];
+        sumSq += inputArray[i] * inputArray[i];
+    }
+    var variance = (sumSq - (sum * sum) / n) / (n - 1);
+    return {
+        mean: sum / n,
+        std: Math.sqrt(variance),
+        sem: Math.sqrt(variance / n)
+    };
 }
 
 function randint(min,max) {
-	// return a random integer N such that min <= N <= max
+    // return a random integer N such that min <= N <= max
     return Math.floor(Math.random()*(max-min+1)+min);
 }
 
@@ -451,9 +451,9 @@ function Pellet() {
 }
 
 Pellet.prototype.display = function() {
-	noStroke();
-	fill(this.color);
-	ellipse(this.x, this.y, this.dia, this.dia);
+    noStroke();
+    fill(this.color);
+    ellipse(this.x, this.y, this.dia, this.dia);
 };
 
 Pellet.prototype.reset = function() {
@@ -469,6 +469,6 @@ Pellet.prototype.reset = function() {
 };
 
 Pellet.prototype.update = function() {
-	this.y += this.vy;
-	if (this.y > height) this.reset();
+    this.y += this.vy;
+    if (this.y > height) this.reset();
 };
